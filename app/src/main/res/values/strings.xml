@@ -15,10 +15,22 @@
     <string name="settings">Settings</string>
     <string name="string_notifications">Notifications</string>
     <string name="string_signOut">Sign out</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="sign_up_for_the_app">Sign Up for the App</string>
+    <string name="monitoring_system">Monitoring System</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="e_mail_address">E-mail address</string>
     <string name="tab_co2">CO2</string>
     <string name="tab_humidity">Humidity</string>
     <string name="tab_temperature">Temperature</string>
     <string name="str_co2">CO2</string>
     <string name="str_humidity">Humidity</string>
     <string name="str_temperature">Temperature</string>
+
 </resources>

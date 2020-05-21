@@ -1,0 +1,18 @@
+{
+  "project_info": {
+    "project_number": "320698869247",
+    "firebase_url": "https://monitoringsystem-cecec.firebaseio.com",
+    "project_id": "monitoringsystem-cecec",
+    "storage_bucket": "monitoringsystem-cecec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "android_client_info": {
+          "package_name": "com.example.monitoringsystem"
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
