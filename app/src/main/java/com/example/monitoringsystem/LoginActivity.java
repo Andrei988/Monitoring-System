@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -29,10 +30,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        emailLogin = findViewById(R.id.editText4);
-        passLogin = findViewById(R.id.editText5);
-        logBtn = findViewById(R.id.button);
-        signBtn = findViewById(R.id.button3);
+        emailLogin = findViewById(R.id.emailAddressBox);
+        passLogin = findViewById(R.id.passwordBox);
+        logBtn = findViewById(R.id.loginButton);
+        signBtn = findViewById(R.id.signUpButton);
+
         firebaseAuth = FirebaseAuth.getInstance();
 
         logBtn.setOnClickListener(new View.OnClickListener()
@@ -85,4 +87,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
