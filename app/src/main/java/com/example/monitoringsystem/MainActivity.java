@@ -11,6 +11,7 @@ import android.view.Menu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.RequiresApi;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signOut(MenuItem item) {
+        FirebaseApp.initializeApp(this);
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
