@@ -4,8 +4,8 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.monitoringsystem.API.Api;
-import com.example.monitoringsystem.API.ServiceGenerator;
+import com.example.monitoringsystem.API.API;
+import com.example.monitoringsystem.API.ApiConsumer;
 import com.example.monitoringsystem.model.Parameters;
 
 import java.util.List;
@@ -37,8 +37,8 @@ public class Repository {
     }
 
     public void updateData() {
-        Retrofit retrofit = ServiceGenerator.getInstance().getRetrofitClient();
-        Api api = retrofit.create(Api.class);
+        Retrofit retrofit = ApiConsumer.getInstance().getRetrofitClient();
+        API api = retrofit.create(API.class);
         final Call<List<Parameters>> call = api.getMeasurement();
 
         call.enqueue(new Callback<List<Parameters>>() {

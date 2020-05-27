@@ -24,8 +24,4 @@ public class Parameters {
     private double value;
     @SerializedName("timestamp")
     private long timestamp;
-
-    public double getValue(){
-        return value;
-    }
 }

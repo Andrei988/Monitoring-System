@@ -9,23 +9,23 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class ServiceGenerator {
+public class ApiConsumer {
 
 
     private static final String TAG = "ServiceGenerator";
 
     private static final String BASE_URL = "http://localhost:8080";
-    private static ServiceGenerator instance;
+    private static ApiConsumer instance;
     private Retrofit retrofit;
 
-    public static ServiceGenerator getInstance() {
+    public static ApiConsumer getInstance() {
         if (instance == null) {
-            instance = new ServiceGenerator();
+            instance = new ApiConsumer();
         }
         return instance;
     }
 
-    private ServiceGenerator() {
+    private ApiConsumer() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
