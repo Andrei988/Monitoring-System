@@ -59,7 +59,6 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/e_mail_address"
-        android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
