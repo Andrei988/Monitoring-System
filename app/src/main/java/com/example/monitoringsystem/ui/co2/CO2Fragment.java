@@ -24,8 +24,6 @@ public class CO2Fragment extends Fragment {
         co2ViewModel = new ViewModelProvider(this).get(CO2ViewModel.class);
         View root = inflater.inflate(R.layout.fragment_tab_co2, container, false);
 
-
-
         return root;
     }
 

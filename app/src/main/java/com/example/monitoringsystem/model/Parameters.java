@@ -2,8 +2,6 @@ package com.example.monitoringsystem.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +21,5 @@ public class Parameters {
     @SerializedName("value")
     private double value;
     @SerializedName("timestamp")
-    private long timestamp;
+    private String timestamp; // TODO: tell database guys to send timestamp as STRING
 }

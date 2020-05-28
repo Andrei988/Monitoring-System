@@ -1,37 +1,41 @@
 package com.example.monitoringsystem.ui.humidity;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.monitoringsystem.repository.Repository;
 import com.example.monitoringsystem.model.Parameters;
+import com.example.monitoringsystem.repository.ParametersRepository;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class HumidityViewModel extends ViewModel {
-    private Repository repository;
-    private MutableLiveData<List<Parameters>> mData;
 
-    public void init(){
-        if(mData != null){
-            return;
-        }
-        repository = Repository.getInstance();
+    private static final String TAG = "HumidityViewModel";
+
+    private ParametersRepository repository;
+
+    public HumidityViewModel() {
+        repository = ParametersRepository.getInstance();
     }
 
-    public HumidityViewModel(){
-        repository = Repository.getInstance();
-        mData=repository.getData();
+    public LiveData<List<Parameters>> getParametersToday() {
+        return repository.getParametersToday();
     }
 
-    public void updateData() {
-        repository.updateData();
+    public void updateParametersToday() {
+        repository.updateParametersToday();
     }
 
-    public LiveData<List<Parameters>> getData() {
-        updateData();
-        mData=repository.getData();
-        return mData;
+    public LiveData<Boolean> isLoading() {
+        return repository.isLoading();
+    }
+
+    public void updateParametersTodayDummyData(int x) {
+        repository.updateParametersTodayDummyData(x);
+    }
+
+    public void updateParametersFromTo(String from, String to) throws ParseException {
+        repository.updateParametersFromToDummyData(from, to);
     }
 }

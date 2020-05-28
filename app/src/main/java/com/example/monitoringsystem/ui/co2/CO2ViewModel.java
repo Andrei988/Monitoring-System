@@ -4,6 +4,4 @@ import androidx.lifecycle.ViewModel;
 
 public class CO2ViewModel extends ViewModel {
 
-
-
 }
