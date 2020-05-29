@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.monitoringsystem.ui.gallery.SettingsFragment"
+        android:name="com.example.monitoringsystem.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 

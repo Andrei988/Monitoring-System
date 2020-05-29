@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,11 +33,11 @@ public class ParametersRepository {
 
     private static ParametersRepository instance;
 
-    private MutableLiveData<List<Parameters>> parametersToday;
+    private MutableLiveData<List<Parameters>> parameters;
     private MutableLiveData<Boolean> isLoading;
 
     private ParametersRepository() {
-        parametersToday = new MutableLiveData<>();
+        parameters = new MutableLiveData<>();
         isLoading = new MutableLiveData<>();
     }
 
@@ -106,7 +107,7 @@ public class ParametersRepository {
             minute = minute + 5;
         }
 
-        parametersToday.postValue(dummyData);
+        parameters.postValue(dummyData);
         isLoading.postValue(false);
     }
 
@@ -124,7 +125,7 @@ public class ParametersRepository {
         int day_from = Integer.parseInt(df);
         String mof = "" + from.charAt(3) + from.charAt(4);
         int month_from = Integer.parseInt(mof);
-        String yf = "" + from.charAt(6) + from.charAt(7);
+        String yf = "2020";
         int year_from = Integer.parseInt(yf);
 
         String mt = "" + to.charAt(14) + to.charAt(15);
@@ -135,7 +136,7 @@ public class ParametersRepository {
         int day_to = Integer.parseInt(dt);
         String mot = "" + to.charAt(3) + to.charAt(4);
         int month_to = Integer.parseInt(mot);
-        String yt = "" + to.charAt(6) + to.charAt(7);
+        String yt = "2020";
         int year_to = Integer.parseInt(yt);
 
 
@@ -206,11 +207,13 @@ public class ParametersRepository {
                 timestamp_sb = df + "-" + mof + "-" + yf + " " + hf + ":" + minute_from;
             }
 
-
-            dummyData.add(new Parameters("humidity", "unitType", i, timestamp_sb));
+            Random random = new Random();
+            dummyData.add(new Parameters("Humidity", "%", random.nextInt(100) , timestamp_sb));
 
             minute_from += 5;
         }
+        parameters.postValue(dummyData);
+        isLoading.postValue(false);
     }
 
     public void updateParametersToday() {
@@ -222,7 +225,7 @@ public class ParametersRepository {
         call.enqueue(new Callback<List<Parameters>>() {
             @Override
             public void onResponse(@NotNull Call<List<Parameters>> call, @NotNull Response<List<Parameters>> response) {
-                parametersToday.postValue(response.body());
+                parameters.postValue(response.body());
                 isLoading.postValue(false);
             }
 
@@ -234,12 +237,28 @@ public class ParametersRepository {
     }
 
     public void updateParametersFromTo(String from, String to) {
+        isLoading.setValue(true);
+        Retrofit retrofit = ApiConsumer.getInstance().getRetrofitClient();
+        API api = retrofit.create(API.class);
+        final Call<List<Parameters>> call = api.getParameters(from, to);
 
+        call.enqueue(new Callback<List<Parameters>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<Parameters>> call, @NotNull Response<List<Parameters>> response) {
+                parameters.postValue(response.body());
+                isLoading.postValue(false);
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<Parameters>> call, @NotNull Throwable t) {
+                Log.e(TAG, Objects.requireNonNull(t.getMessage()));
+            }
+        });
     }
 
 
-    public MutableLiveData<List<Parameters>> getParametersToday() {
-        return parametersToday;
+    public MutableLiveData<List<Parameters>> getParameters() {
+        return parameters;
     }
 
     public LiveData<Boolean> isLoading() {

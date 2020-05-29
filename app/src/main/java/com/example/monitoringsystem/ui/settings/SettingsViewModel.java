@@ -1,4 +1,4 @@
-package com.example.monitoringsystem.ui.gallery;
+package com.example.monitoringsystem.ui.settings;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

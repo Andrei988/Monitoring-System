@@ -20,7 +20,7 @@ public class HumidityViewModel extends ViewModel {
     }
 
     public LiveData<List<Parameters>> getParametersToday() {
-        return repository.getParametersToday();
+        return repository.getParameters();
     }
 
     public void updateParametersToday() {
@@ -29,10 +29,6 @@ public class HumidityViewModel extends ViewModel {
 
     public LiveData<Boolean> isLoading() {
         return repository.isLoading();
-    }
-
-    public void updateParametersTodayDummyData(int x) {
-        repository.updateParametersTodayDummyData(x);
     }
 
     public void updateParametersFromTo(String from, String to) throws ParseException {

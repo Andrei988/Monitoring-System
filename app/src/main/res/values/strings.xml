@@ -32,5 +32,6 @@
     <string name="str_co2">CO2</string>
     <string name="str_humidity">Humidity</string>
     <string name="str_temperature">Temperature</string>
+    <string name="update">UPDATE</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.example.monitoringsystem.ui.gallery;
+package com.example.monitoringsystem.ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
