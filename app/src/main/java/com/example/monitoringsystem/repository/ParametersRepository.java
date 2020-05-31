@@ -103,6 +103,7 @@ public class ParametersRepository {
                     + year;
 
             dummyData.add(new Parameters("humidity", "unitType", i, timestamp_sb));
+            dummyData.add(new Parameters("CO2", "unitType", i, timestamp_sb));
 
             minute = minute + 5;
         }

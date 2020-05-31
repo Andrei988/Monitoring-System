@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="dateAndTimeFromCO2" type="id" />
+    <item name="DateToLabelCO2" type="id" />
+    <item name="dateAndTimeToCO2" type="id" />
+    <item name="linechartCO2" type="id" />
+    <item name="MIN_labelCO2" type="id" />
+    <item name="dividerCO2" type="id" />
+    <item name="MAX_labelCO2" type="id" />
+    <item name="linearLayoutCO2" type="id" />
+    <item name="progressBarCO2" type="id" />
+    <item name="AVG_labelCO2" type="id" />
+    <item name="AVG_valueCO2" type="id" />
+    <item name="MIN_valueCO2" type="id" />
+    <item name="MAX_valueCO2" type="id" />
+</resources>
