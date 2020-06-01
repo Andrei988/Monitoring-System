@@ -104,6 +104,7 @@ public class ParametersRepository {
 
             dummyData.add(new Parameters("humidity", "unitType", i, timestamp_sb));
             dummyData.add(new Parameters("CO2", "unitType", i, timestamp_sb));
+            dummyData.add(new Parameters("temperature", "unitType", i, timestamp_sb));
 
             minute = minute + 5;
         }
@@ -114,6 +115,7 @@ public class ParametersRepository {
 
 
     public void updateParametersFromToDummyData(String from, String to) throws ParseException {
+
 
         isLoading.postValue(true);
         List<Parameters> dummyData = new ArrayList<>();
@@ -215,6 +217,8 @@ public class ParametersRepository {
         }
         parameters.postValue(dummyData);
         isLoading.postValue(false);
+
+
     }
 
     public void updateParametersToday() {
