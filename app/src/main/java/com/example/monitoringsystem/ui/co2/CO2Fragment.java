@@ -11,15 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.monitoringsystem.Adapters.ParametersAdapter;
 import com.example.monitoringsystem.R;
 import com.example.monitoringsystem.model.Parameters;
@@ -31,8 +28,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-
-import java.lang.reflect.Parameter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +35,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import lombok.SneakyThrows;
 
@@ -53,7 +47,7 @@ public class CO2Fragment extends Fragment {
     private ProgressBar mProgressBarCO2;
     private EditText time_fromCO2;
     private EditText time_toCO2;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerViewCO2;
     private ParametersAdapter parametersAdapter;
     private Button updateButtonCO2;
     private TextView max_valueCO2;
@@ -77,8 +71,8 @@ public class CO2Fragment extends Fragment {
         CO2ViewModel.getParametersToday().observe(this, parameters -> { // parameters from dummy data
 
             double co2_value_total = 0;
-            double co2_value_max = 0;
-            double co2_value_min = 100;
+            int co2_value_max = 0;
+            int co2_value_min = 100;
 
             for(Parameters parametersItem : parameters) { // computing min, max and avg
                 co2_value_total=parametersItem.getValue();
@@ -165,8 +159,8 @@ public class CO2Fragment extends Fragment {
         mProgressBarCO2 = view.findViewById(R.id.progressBarCO2);
         time_fromCO2 = view.findViewById(R.id.dateAndTimeFromCO2);
         time_toCO2 = view.findViewById(R.id.dateAndTimeToCO2);
-        updateButtonCO2 = view.findViewById(R.id.updateButton);
-        recyclerView = view.findViewById(R.id.rv);
+        updateButtonCO2 = view.findViewById(R.id.updateButtonCO2);
+        recyclerViewCO2 = view.findViewById(R.id.rvCO2);
         max_valueCO2 = view.findViewById(R.id.MAX_valueCO2);
         min_valueCO2 = view.findViewById(R.id.MIN_valueCO2);
         avg_valueCO2 = view.findViewById(R.id.AVG_valueCO2);
@@ -220,9 +214,9 @@ public class CO2Fragment extends Fragment {
 
     private void initRecyclerView() {
         CO2ViewModel.getParametersToday().observe(this.getViewLifecycleOwner(), parameters -> {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerViewCO2.setLayoutManager(new LinearLayoutManager(getContext()));
             parametersAdapter = new ParametersAdapter(CO2ViewModel.getParametersToday().getValue(), getActivity());
-            recyclerView.setAdapter(parametersAdapter);
+            recyclerViewCO2.setAdapter(parametersAdapter);
         });
     }
 

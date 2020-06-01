@@ -1,28 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Button
-        android:id="@+id/getfromapi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="GetFromApi"
+    <EditText
+        android:id="@+id/dateAndTimeFromTemperature"
+        android:layout_width="150dp"
+        android:layout_height="42dp"
+        android:focusable="false"
+        android:inputType="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
 
     <TextView
-        android:id="@+id/dataTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text=""
+        android:id="@+id/DateFromLabelTemperature"
+        android:layout_width="98dp"
+        android:layout_height="42dp"
+        android:text="Date From: "
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/DateToLabelTemperature"
+        app:layout_constraintEnd_toStartOf="@+id/dateAndTimeFromTemperature"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/dateAndTimeToTemperature"
+        android:layout_width="150dp"
+        android:layout_height="42dp"
+        android:focusable="false"
+        android:inputType="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.082" />
+
+    <TextView
+        android:id="@+id/DateToLabelTemperature"
+        android:layout_width="98dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="64dp"
+        android:text="Date To: "
+        android:textSize="18dp"
+        app:layout_constraintEnd_toStartOf="@+id/dateAndTimeToTemperature"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/updateButtonTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/update"
+        app:layout_constraintBottom_toTopOf="@+id/linechartTemperature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.269"
+        app:layout_constraintStart_toEndOf="@+id/dateAndTimeFromTemperature"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.372" />
+
+    <ImageView
+        android:layout_width="39dp"
+        android:layout_height="40dp"
+        android:src="@drawable/temperature"
+        app:layout_constraintBottom_toTopOf="@+id/linechartTemperature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/dateAndTimeFromTemperature"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.385" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/linechartTemperature"
+        android:layout_width="361dp"
+        android:layout_height="187dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.246" />
+
+
+    <TextView
+        android:id="@+id/MAX_labelTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="MAX: "
+        app:layout_constraintEnd_toStartOf="@+id/MIN_labelTemperature"
+        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dividerTemperature" />
+
+    <TextView
+        android:id="@+id/MAX_valueTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="°C"
+        app:layout_constraintStart_toEndOf="@+id/MAX_labelTemperature"
+        app:layout_constraintTop_toTopOf="@+id/MAX_labelTemperature" />
+
+    <TextView
+        android:id="@+id/MIN_labelTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MIN: "
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutTemperature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dividerTemperature"
+        app:layout_constraintVertical_bias="0.181" />
+
+    <TextView
+        android:id="@+id/MIN_valueTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="°C"
+        app:layout_constraintStart_toEndOf="@+id/MIN_labelTemperature"
+        app:layout_constraintTop_toTopOf="@+id/MIN_labelTemperature" />
+
+    <TextView
+        android:id="@+id/AVG_labelTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AVG: "
+        app:layout_constraintBottom_toBottomOf="@+id/MIN_labelTemperature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.697"
+        app:layout_constraintStart_toEndOf="@+id/MIN_labelTemperature"
+        app:layout_constraintTop_toTopOf="@+id/progressBarTemperature"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/AVG_valueTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="°C"
+        app:layout_constraintStart_toEndOf="@+id/AVG_labelTemperature"
+        app:layout_constraintTop_toTopOf="@+id/AVG_labelTemperature" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/temperaturerv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+
+    <ProgressBar
+        android:id="@+id/progressBarTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/dividerTemperature"
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutTemperature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linechartTemperature"
+        app:layout_constraintVertical_bias="0.489"
+        tools:ignore="UnknownId" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
