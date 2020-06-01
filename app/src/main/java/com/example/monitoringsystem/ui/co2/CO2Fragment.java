@@ -70,11 +70,19 @@ public class CO2Fragment extends Fragment {
 
         CO2ViewModel.getParametersToday().observe(this, parameters -> { // parameters from dummy data
 
+            List<Parameters> co2Parameters = new ArrayList<>();
+
+            for(Parameters parametersItem : parameters) {
+                if(parametersItem.getSensorName().equals("CO2")) {
+                    co2Parameters.add(parametersItem);
+                }
+            }
+
             double co2_value_total = 0;
             int co2_value_max = 0;
             int co2_value_min = 100;
 
-            for(Parameters parametersItem : parameters) { // computing min, max and avg
+            for(Parameters parametersItem : co2Parameters) { // computing min, max and avg
                 co2_value_total=parametersItem.getValue();
                 if(co2_value_max < parametersItem.getValue()) {
                     co2_value_max = (int) parametersItem.getValue();
@@ -83,7 +91,7 @@ public class CO2Fragment extends Fragment {
                 }
             }
 
-            double co2_value_average = co2_value_total/parameters.size();
+            double co2_value_average = co2_value_total/co2Parameters.size();
             avg_valueCO2.setText(co2_value_average + "PPM");
             min_valueCO2.setText(co2_value_min + "PPM");
             max_valueCO2.setText(co2_value_max + "PPM");
@@ -91,19 +99,19 @@ public class CO2Fragment extends Fragment {
             ArrayList<Entry> vals = new ArrayList<>(); // data entry for chart
 
             List<List<Parameters>> dataChunks = new ArrayList<>(); // list that holds parameters as parameter chunks
-            Parameters parametersArray[] = parameters.toArray(new Parameters[0]);
+            Parameters parametersArray[] = co2Parameters.toArray(new Parameters[0]);
             Parameters chunkArray[];
-            int initialRatio = parameters.size() / 5;
-            int ratio = parameters.size() / 5;
+            int initialRatio = co2Parameters.size() / 5;
+            int ratio = co2Parameters.size() / 5;
 
-            for (int i = 0; i < parameters.size(); i += initialRatio) { // logic that gets parameters chunks and adding them to dataChunks list
+            for (int i = 0; i < co2Parameters.size(); i += initialRatio) { // logic that gets parameters chunks and adding them to dataChunks list
                 try {
                     chunkArray = Arrays.copyOfRange(parametersArray, i, ratio);
                     List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
                 } catch (IndexOutOfBoundsException e) {
-                    chunkArray = Arrays.copyOfRange(parametersArray, i, parameters.size() - 1);
+                    chunkArray = Arrays.copyOfRange(parametersArray, i, co2Parameters.size() - 1);
                     List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
@@ -113,18 +121,18 @@ public class CO2Fragment extends Fragment {
                 parametersChunk.removeAll(Collections.singletonList(null)); // removing null objects from a chunk
                 Parameters lastParameter = parametersChunk.get(parametersChunk.size() - 1); // last parameter from a chunk
 
-                String timestamp = lastParameter.getTimestamp();
-                String hoursNow = timestamp.charAt(11) + "" + timestamp.charAt(12); // string hour from the timestamp
-                String minutesNow = timestamp.charAt(14) + "" + timestamp.charAt(15); // string minutes from the timestamp
-
-                int hrNow = Integer.parseInt(hoursNow);
-                int minNow = Integer.parseInt(minutesNow);
-
-                long totalMinutes = minNow + hrNow * 60;
-
                 if (lastParameter.getSensorName().equals("CO2")) { // co2 check
+                    String timestamp = lastParameter.getTimestamp();
+                    String hoursNow = timestamp.charAt(11) + "" + timestamp.charAt(12); // string hour from the timestamp
+                    String minutesNow = timestamp.charAt(14) + "" + timestamp.charAt(15); // string minutes from the timestamp
+
+                    int hrNow = Integer.parseInt(hoursNow);
+                    int minNow = Integer.parseInt(minutesNow);
+
+                    long totalMinutes = minNow + hrNow * 60;
                     vals.add(new Entry(totalMinutes, Math.round((float) lastParameter.getValue())));
                 }
+
             }
 
             LineDataSet dataSet = new LineDataSet(vals, "parameters");
@@ -184,8 +192,8 @@ public class CO2Fragment extends Fragment {
             now_minute_string += now_minute;
         }
 
-        time_fromCO2.setText(now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
-        time_toCO2.setText(now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
+        time_fromCO2.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
+        time_toCO2.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
 
         time_fromCO2.setOnClickListener(v -> showDateTimeDialogFrom(time_fromCO2));
         time_toCO2.setOnClickListener(v -> showDateTimeDialogTo(time_toCO2));
@@ -214,8 +222,17 @@ public class CO2Fragment extends Fragment {
 
     private void initRecyclerView() {
         CO2ViewModel.getParametersToday().observe(this.getViewLifecycleOwner(), parameters -> {
+
+            List<Parameters> CO2Parameters = new ArrayList<>();
+
+            for(Parameters parametersItem : parameters) {
+                if(parametersItem.getSensorName().equals("CO2")) {
+                    CO2Parameters.add(parametersItem);
+                }
+            }
+
             recyclerViewCO2.setLayoutManager(new LinearLayoutManager(getContext()));
-            parametersAdapter = new ParametersAdapter(CO2ViewModel.getParametersToday().getValue(), getActivity());
+            parametersAdapter = new ParametersAdapter(CO2Parameters, getActivity());
             recyclerViewCO2.setAdapter(parametersAdapter);
         });
     }

@@ -73,11 +73,19 @@ public class TemperatureFragment extends Fragment {
 
         temperatureViewModel.getParametersToday().observe(this, parameters -> { // parameters from dummy data
 
+            List<Parameters> temperatureParameters = new ArrayList<>();
+
+            for(Parameters parametersItem : parameters) {
+                if(parametersItem.getSensorName().equals("Temperature")) {
+                    temperatureParameters.add(parametersItem);
+                }
+            }
+
             int temp_value_total = 0;
             int temp_value_max = 0;
             int temp_value_min = 100;
 
-            for(Parameters parametersItem : parameters) { // computing min, max and avg
+            for(Parameters parametersItem : temperatureParameters) { // computing min, max and avg
                 temp_value_total+=parametersItem.getValue();
                 if(temp_value_max < parametersItem.getValue()) {
                     temp_value_max = (int) parametersItem.getValue();
@@ -86,7 +94,7 @@ public class TemperatureFragment extends Fragment {
                 }
             }
 
-            int temp_value_average = temp_value_total/parameters.size();
+            int temp_value_average = temp_value_total/temperatureParameters.size();
             avg_valueTemperature.setText(temp_value_average + "°C");
             min_valueTemperature.setText(temp_value_min + "°C");
             max_valueTemperature.setText(temp_value_max + "°C");
@@ -94,19 +102,19 @@ public class TemperatureFragment extends Fragment {
             ArrayList<Entry> vals = new ArrayList<>();
 
             List<List<Parameters>> dataChunks = new ArrayList<>();
-            Parameters parametersArray[] = parameters.toArray(new Parameters[0]);
+            Parameters parametersArray[] = temperatureParameters.toArray(new Parameters[0]);
             Parameters chunkArray[];
-            int initialRatio = parameters.size() / 5;
-            int ratio = parameters.size() / 5;
+            int initialRatio = temperatureParameters.size() / 5;
+            int ratio = temperatureParameters.size() / 5;
 
-            for (int i = 0; i < parameters.size(); i += initialRatio) {
+            for (int i = 0; i < temperatureParameters.size(); i += initialRatio) {
                 try {
                     chunkArray = Arrays.copyOfRange(parametersArray, i, ratio);
                     List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
                 } catch (IndexOutOfBoundsException e) {
-                    chunkArray = Arrays.copyOfRange(parametersArray, i, parameters.size() - 1);
+                    chunkArray = Arrays.copyOfRange(parametersArray, i, temperatureParameters.size() - 1);
                     List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
@@ -125,7 +133,7 @@ public class TemperatureFragment extends Fragment {
 
                 long totalMinutes = minNow + hrNow * 60;
 
-                if (lastParameter.getSensorName().equals("Humidity")) { // humidity check
+                if (lastParameter.getSensorName().equals("Temperature")) { // humidity check
                     vals.add(new Entry(totalMinutes, Math.round((float) lastParameter.getValue())));
                 }
             }
@@ -187,8 +195,8 @@ public class TemperatureFragment extends Fragment {
             now_minute_string += now_minute;
         }
 
-        time_fromTemperature.setText(now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
-        time_toTemperature.setText(now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
+        time_fromTemperature.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
+        time_toTemperature.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
 
         time_fromTemperature.setOnClickListener(v -> showDateTimeDialogFrom(time_fromTemperature));
         time_toTemperature.setOnClickListener(v -> showDateTimeDialogTo(time_toTemperature));
@@ -213,8 +221,17 @@ public class TemperatureFragment extends Fragment {
 
    private void initRecyclerView() {
         temperatureViewModel.getParametersToday().observe(this.getViewLifecycleOwner(), parameters -> {
+
+            List<Parameters> temperatureParameters = new ArrayList<>();
+
+            for(Parameters parametersItem : parameters) {
+                if(parametersItem.getSensorName().equals("Temperature")) {
+                    temperatureParameters.add(parametersItem);
+                }
+            }
+
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            parametersAdapter = new ParametersAdapter(temperatureViewModel.getParametersToday().getValue(), getActivity());
+            parametersAdapter = new ParametersAdapter(temperatureParameters, getActivity());
             recyclerView.setAdapter(parametersAdapter);
         });
     }

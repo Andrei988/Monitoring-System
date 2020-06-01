@@ -72,11 +72,19 @@ public class HumidityFragment extends Fragment {
 
         humidityViewModel.getParametersToday().observe(this, parameters -> { // parameters from dummy data
 
+            List<Parameters> humidityParameters = new ArrayList<>();
+
+            for(Parameters parametersItem : parameters) {
+                if(parametersItem.getSensorName().equals("Humidity")) {
+                    humidityParameters.add(parametersItem);
+                }
+            }
+
             int hum_value_total = 0;
             int hum_value_max = 0;
             int hum_value_min = 100;
 
-            for(Parameters parametersItem : parameters) { // computing min, max and avg
+            for(Parameters parametersItem : humidityParameters) { // computing min, max and avg
                 hum_value_total+=parametersItem.getValue();
                 if(hum_value_max < parametersItem.getValue()) {
                     hum_value_max = (int) parametersItem.getValue();
@@ -85,7 +93,7 @@ public class HumidityFragment extends Fragment {
                 }
             }
 
-            int hum_value_average = hum_value_total/parameters.size();
+            int hum_value_average = hum_value_total/humidityParameters.size();
             avg_value.setText(hum_value_average + "%");
             min_value.setText(hum_value_min + "%");
             max_value.setText(hum_value_max + "%");
@@ -93,19 +101,19 @@ public class HumidityFragment extends Fragment {
             ArrayList<Entry> vals = new ArrayList<>(); // data entry for chart
 
             List<List<Parameters>> dataChunks = new ArrayList<>(); // list that holds parameters as parameter chunks
-            Parameters parametersArray[] = parameters.toArray(new Parameters[0]);
+            Parameters parametersArray[] = humidityParameters.toArray(new Parameters[0]);
             Parameters chunkArray[];
-            int initialRatio = parameters.size() / 5;
-            int ratio = parameters.size() / 5;
+            int initialRatio = humidityParameters.size() / 5;
+            int ratio = humidityParameters.size() / 5;
 
-            for (int i = 0; i < parameters.size(); i += initialRatio) { // logic that gets parameters chunks and adding them to dataChunks list
+            for (int i = 0; i < humidityParameters.size(); i += initialRatio) { // logic that gets parameters chunks and adding them to dataChunks list
                 try {
                     chunkArray = Arrays.copyOfRange(parametersArray, i, ratio);
                     List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
                 } catch (IndexOutOfBoundsException e) {
-                    chunkArray = Arrays.copyOfRange(parametersArray, i, parameters.size() - 1);
+                    chunkArray = Arrays.copyOfRange(parametersArray, i, humidityParameters.size() - 1);
                     List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
@@ -186,8 +194,8 @@ public class HumidityFragment extends Fragment {
             now_minute_string += now_minute;
         }
 
-        time_from.setText(now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
-        time_to.setText(now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
+        time_from.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
+        time_to.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
 
         time_from.setOnClickListener(v -> showDateTimeDialogFrom(time_from));
         time_to.setOnClickListener(v -> showDateTimeDialogTo(time_to));
@@ -212,8 +220,17 @@ public class HumidityFragment extends Fragment {
 
     private void initRecyclerView() {
         humidityViewModel.getParametersToday().observe(this.getViewLifecycleOwner(), parameters -> {
+
+            List<Parameters> humidityParameters = new ArrayList<>();
+
+            for(Parameters parametersItem : parameters) {
+                if(parametersItem.getSensorName().equals("Humidity")) {
+                    humidityParameters.add(parametersItem);
+                }
+            }
+
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            parametersAdapter = new ParametersAdapter(humidityViewModel.getParametersToday().getValue(), getActivity());
+            parametersAdapter = new ParametersAdapter(humidityParameters, getActivity());
             recyclerView.setAdapter(parametersAdapter);
         });
     }

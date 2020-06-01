@@ -212,6 +212,8 @@ public class ParametersRepository {
 
             Random random = new Random();
             dummyData.add(new Parameters("Humidity", "%", random.nextInt(100) , timestamp_sb));
+            dummyData.add(new Parameters("CO2", "PPM", random.nextInt(100) , timestamp_sb));
+            dummyData.add(new Parameters("Temperature", "C", random.nextInt(100) , timestamp_sb));
 
             minute_from += 5;
         }
