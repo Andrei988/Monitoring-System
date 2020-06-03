@@ -116,7 +116,7 @@
         android:text="MIN: "
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutCO2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintHorizontal_bias="0.435"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dividerCO2"
         app:layout_constraintVertical_bias="0.181" />
@@ -136,7 +136,7 @@
         android:text="AVG: "
         app:layout_constraintBottom_toBottomOf="@+id/MIN_labelCO2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.697"
+        app:layout_constraintHorizontal_bias="0.561"
         app:layout_constraintStart_toEndOf="@+id/MIN_labelCO2"
         app:layout_constraintTop_toTopOf="@+id/progressBarCO2"
         app:layout_constraintVertical_bias="1.0" />
