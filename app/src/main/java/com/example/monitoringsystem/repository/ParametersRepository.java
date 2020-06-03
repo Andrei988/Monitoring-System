@@ -287,11 +287,7 @@ public class ParametersRepository {
     public void insert(Preferences fav){
         new InsertAsyncTask(appDao).execute(fav);
     }
-
-    public void delete(Preferences fav){
-        new UpdateAsyncTask(appDao).execute(fav);
-    }
-
+    
     private static class InsertAsyncTask extends AsyncTask<Preferences,Void,Void> {
 
         private AppDao appDao;
@@ -308,21 +304,7 @@ public class ParametersRepository {
         }
     }
 
-    private static class UpdateAsyncTask extends AsyncTask<Preferences,Void,Void> {
 
-        private AppDao appDao;
-
-        private UpdateAsyncTask(AppDao appDao){
-            this.appDao=appDao;
-        }
-
-
-        @Override
-        protected Void doInBackground(Preferences... preferencess) {
-            appDao.update(preferencess[0]);
-            return null;
-        }
-    }
 
 
 
