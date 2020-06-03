@@ -19,7 +19,8 @@ public class SettingsViewModel extends AndroidViewModel {
 
     public SettingsViewModel(@NotNull Application application) {
         super(application);
-        repository=new ParametersRepository(application);
+        ParametersRepository.getInstance().setAppDao(application);
+        repository=ParametersRepository.getInstance();
 
     }
 

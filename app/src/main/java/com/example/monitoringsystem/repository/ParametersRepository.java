@@ -48,15 +48,18 @@ public class ParametersRepository {
         appDao=appDatabase.appDao();
     }
 
-/*
+
     public static synchronized ParametersRepository getInstance() {
         if (instance == null) {
-            instance = new ParametersRepository();
+            instance = new ParametersRepository(null);
         }
-
         return instance;
     }
-*/
+    public void setAppDao(Application app){
+        AppDatabase appDatabase=AppDatabase.getInstance(app);
+        appDao=appDatabase.appDao();
+    }
+
     public void updateParametersTodayDummyData(int amount) {
         isLoading.postValue(true);
         List<Parameters> dummyData = new ArrayList<>();
