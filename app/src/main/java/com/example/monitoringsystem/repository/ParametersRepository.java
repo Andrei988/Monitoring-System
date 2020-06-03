@@ -287,7 +287,7 @@ public class ParametersRepository {
     public void insert(Preferences fav){
         new InsertAsyncTask(appDao).execute(fav);
     }
-    
+
     private static class InsertAsyncTask extends AsyncTask<Preferences,Void,Void> {
 
         private AppDao appDao;

@@ -3,9 +3,12 @@ package com.example.monitoringsystem.repository.Database;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
 @Entity(tableName = "preferences_table")
 public class Preferences {
     @PrimaryKey
+    @NotNull
     private String username;
     private int minCo2;
     private int maxCo2;
