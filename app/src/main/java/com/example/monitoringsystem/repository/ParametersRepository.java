@@ -49,9 +49,9 @@ public class ParametersRepository {
     }
 
 
-    public static synchronized ParametersRepository getInstance() {
+    public static synchronized ParametersRepository getInstance(Application app) {
         if (instance == null) {
-            instance = new ParametersRepository(null);
+            instance = new ParametersRepository(app);
         }
         return instance;
     }

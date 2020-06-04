@@ -15,20 +15,16 @@ import org.jetbrains.annotations.NotNull;
 
 public class SettingsViewModel extends AndroidViewModel {
 
+    private static final String TAG = "SettingsViewModel";
     private ParametersRepository repository;
 
     public SettingsViewModel(@NotNull Application application) {
         super(application);
-        ParametersRepository.getInstance().setAppDao(application);
-        repository=ParametersRepository.getInstance();
-
+        repository=ParametersRepository.getInstance(application);
     }
 
-
-    public void savePref(String username, EditText minCo2, EditText maxCo2, EditText minHumidity, EditText maxHumidity, EditText minTemp, EditText maxTemp) {
-        Preferences pref=new Preferences(username,Integer.parseInt(minCo2.getText().toString()),Integer.parseInt(maxCo2.getText().toString()),
-                Integer.parseInt(minHumidity.getText().toString()),Integer.parseInt(maxHumidity.getText().toString()),Integer.parseInt(minTemp.getText().toString()),
-                Integer.parseInt(maxTemp.getText().toString()));
+    public void savePref(String username, int minCo2, int maxCo2, int minHumidity, int maxHumidity, int minTemp, int maxTemp) {
+        Preferences pref=new Preferences(username,minCo2,maxCo2,minHumidity,maxHumidity,minTemp,maxTemp);
 repository.insert(pref);
     }
 

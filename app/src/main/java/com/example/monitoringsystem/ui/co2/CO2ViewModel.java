@@ -1,5 +1,8 @@
 package com.example.monitoringsystem.ui.co2;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -9,14 +12,15 @@ import com.example.monitoringsystem.repository.ParametersRepository;
 import java.text.ParseException;
 import java.util.List;
 
-public class CO2ViewModel extends ViewModel {
+public class CO2ViewModel extends AndroidViewModel {
 
     private static final String TAG = "CO2ViewModel";
 
     private ParametersRepository repository;
 
-    public CO2ViewModel() {
-        repository = ParametersRepository.getInstance();
+    public CO2ViewModel(Application application) {
+        super(application);
+        repository = ParametersRepository.getInstance(application);
     }
 
     public LiveData<List<Parameters>> getParametersToday() {

@@ -1,5 +1,8 @@
 package com.example.monitoringsystem.ui.temperature;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -9,14 +12,15 @@ import com.example.monitoringsystem.repository.ParametersRepository;
 import java.text.ParseException;
 import java.util.List;
 
-public class TemperatureViewModel extends ViewModel {
+public class TemperatureViewModel extends AndroidViewModel {
 
     private static final String TAG = "TemperatureViewModel";
 
     private ParametersRepository repository;
 
-    public TemperatureViewModel() {
-        repository = ParametersRepository.getInstance();
+    public TemperatureViewModel(Application application) {
+        super(application);
+        repository = ParametersRepository.getInstance(application);
     }
 
     public LiveData<List<Parameters>> getParametersToday() {
