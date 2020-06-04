@@ -10,10 +10,15 @@ import java.util.List;
 
 @Dao
 public interface AppDao {
-@Insert(onConflict = OnConflictStrategy.REPLACE)
-void insert(Preferences pref);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Preferences pref);
+
+    @Update
+    void update(Preferences pref);
+
 
     @Query("SELECT * FROM preferences_table WHERE username LIKE :name")
- Preferences findPrefByUsername(String name);
+    Preferences findPrefByUsername(String name);
 
 }

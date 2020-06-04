@@ -303,6 +303,7 @@ public class ParametersRepository {
         @Override
         protected Void doInBackground(Preferences... preferencess) {
             appDao.insert(preferencess[0]);
+
             return null;
         }
     }
