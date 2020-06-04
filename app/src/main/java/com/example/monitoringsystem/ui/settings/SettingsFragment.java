@@ -26,6 +26,7 @@ public class SettingsFragment extends Fragment {
     private View root;
     private EditText minCo2;
     private EditText maxCo2;
+
     private EditText minHumidity;
     private EditText maxHumidity;
     private EditText minTemp;
