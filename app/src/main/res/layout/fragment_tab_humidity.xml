@@ -187,6 +187,7 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linechart"
-        app:layout_constraintVertical_bias="0.489" />
+        app:layout_constraintVertical_bias="0.489"
+        tools:ignore="UnknownId"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
