@@ -118,7 +118,7 @@ public class ParametersRepository {
 
 
         isLoading.postValue(true);
-        List<Parameters> dummyData = new ArrayList<>();
+        //List<Parameters> dummyData = new ArrayList<>();
 
         String mf = "" + from.charAt(14) + from.charAt(15);
         int minute_from = Integer.parseInt(mf);
@@ -211,13 +211,13 @@ public class ParametersRepository {
             }
 
             Random random = new Random();
-            dummyData.add(new Parameters("Humidity", "%", random.nextInt(100) , timestamp_sb));
-            dummyData.add(new Parameters("CO2", "PPM", random.nextInt(100) , timestamp_sb));
-            dummyData.add(new Parameters("Temperature", "C", random.nextInt(100) , timestamp_sb));
+            //dummyData.add(new Parameters("Humidity", "%", random.nextInt(100) , timestamp_sb));
+           // dummyData.add(new Parameters("CO2", "PPM", random.nextInt(100) , timestamp_sb));
+            //dummyData.add(new Parameters("Temperature", "C", random.nextInt(100) , timestamp_sb));
 
             minute_from += 5;
         }
-        parameters.postValue(dummyData);
+       // parameters.postValue(dummyData);
         isLoading.postValue(false);
 
 

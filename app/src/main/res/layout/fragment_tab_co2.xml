@@ -94,10 +94,11 @@
         android:id="@+id/MAX_labelCO2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:text="MAX: "
         app:layout_constraintEnd_toStartOf="@+id/MIN_labelCO2"
-        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dividerCO2" />
 
