@@ -52,11 +52,15 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (user != null){
-                    settingsViewModel.savePref(user.getDisplayName(), Integer.parseInt(minCo2.getText().toString()), Integer.parseInt(maxCo2.getText().toString()),
-                            Integer.parseInt(minHumidity.getText().toString()), Integer.parseInt(maxHumidity.getText().toString()), Integer.parseInt(minTemp.getText().toString()),
-                            Integer.parseInt(maxTemp.getText().toString()));
-                    Toast.makeText(root.getContext(), "Preferences added", Toast.LENGTH_SHORT).show();
-
+                    if(Integer.parseInt(minHumidity.getText().toString())<Integer.parseInt(maxHumidity.getText().toString()) &&
+                            Integer.parseInt(minCo2.getText().toString())<Integer.parseInt(maxCo2.getText().toString()) &&
+                            Integer.parseInt(minTemp.getText().toString())<Integer.parseInt(maxTemp.getText().toString())) {
+                        settingsViewModel.savePref(user.getDisplayName(), Integer.parseInt(minCo2.getText().toString()), Integer.parseInt(maxCo2.getText().toString()),
+                                Integer.parseInt(minHumidity.getText().toString()), Integer.parseInt(maxHumidity.getText().toString()), Integer.parseInt(minTemp.getText().toString()),
+                                Integer.parseInt(maxTemp.getText().toString()));
+                        Toast.makeText(root.getContext(), "Preferences added", Toast.LENGTH_SHORT).show();
+                    }
+                    else Toast.makeText(root.getContext(), "Unable to execute! Min Values are higher than Max Values", Toast.LENGTH_SHORT).show();
                     //TODO : close fragment
                 }
                 else

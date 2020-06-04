@@ -10,17 +10,18 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.monitoringsystem.repository.Database.Preferences;
 import com.example.monitoringsystem.repository.ParametersRepository;
+import com.example.monitoringsystem.repository.SettingsRepository;
 
 import org.jetbrains.annotations.NotNull;
 
 public class SettingsViewModel extends AndroidViewModel {
 
     private static final String TAG = "SettingsViewModel";
-    private ParametersRepository repository;
+    private SettingsRepository repository;
 
     public SettingsViewModel(@NotNull Application application) {
         super(application);
-        repository=ParametersRepository.getInstance(application);
+        repository= SettingsRepository.getInstance(application);
     }
 
     public void savePref(String username, int minCo2, int maxCo2, int minHumidity, int maxHumidity, int minTemp, int maxTemp) {

@@ -35,7 +35,6 @@ import static java.lang.String.valueOf;
 public class ParametersRepository {
 
     private static final String TAG = "ParametersRepository";
-    private AppDao appDao;
     private static ParametersRepository instance;
 
     private MutableLiveData<List<Parameters>> parameters;
@@ -44,8 +43,6 @@ public class ParametersRepository {
     public ParametersRepository(Application app) {
         parameters = new MutableLiveData<>();
         isLoading = new MutableLiveData<>();
-        AppDatabase appDatabase=AppDatabase.getInstance(app);
-        appDao=appDatabase.appDao();
     }
 
 
@@ -54,10 +51,6 @@ public class ParametersRepository {
             instance = new ParametersRepository(app);
         }
         return instance;
-    }
-    public void setAppDao(Application app){
-        AppDatabase appDatabase=AppDatabase.getInstance(app);
-        appDao=appDatabase.appDao();
     }
 
     public void updateParametersTodayDummyData(int amount) {
@@ -285,28 +278,6 @@ public class ParametersRepository {
 
 
 
-/////
-
-    public void insert(Preferences fav){
-        new InsertAsyncTask(appDao).execute(fav);
-    }
-
-    private static class InsertAsyncTask extends AsyncTask<Preferences,Void,Void> {
-
-        private AppDao appDao;
-
-        private InsertAsyncTask(AppDao appDao){
-            this.appDao=appDao;
-        }
-
-
-        @Override
-        protected Void doInBackground(Preferences... preferencess) {
-            appDao.insert(preferencess[0]);
-
-            return null;
-        }
-    }
 
 
 
