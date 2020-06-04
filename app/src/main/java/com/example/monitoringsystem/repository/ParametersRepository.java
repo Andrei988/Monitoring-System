@@ -1,5 +1,7 @@
 package com.example.monitoringsystem.repository;
 
+import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -8,6 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.monitoringsystem.API.API;
 import com.example.monitoringsystem.API.ApiConsumer;
 import com.example.monitoringsystem.model.Parameters;
+import com.example.monitoringsystem.repository.Database.AppDao;
+import com.example.monitoringsystem.repository.Database.AppDatabase;
+import com.example.monitoringsystem.repository.Database.Preferences;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,23 +35,29 @@ import static java.lang.String.valueOf;
 public class ParametersRepository {
 
     private static final String TAG = "ParametersRepository";
-
+    private AppDao appDao;
     private static ParametersRepository instance;
 
     private MutableLiveData<List<Parameters>> parameters;
     private MutableLiveData<Boolean> isLoading;
 
-    private ParametersRepository() {
+    public ParametersRepository(Application app) {
         parameters = new MutableLiveData<>();
         isLoading = new MutableLiveData<>();
+        AppDatabase appDatabase=AppDatabase.getInstance(app);
+        appDao=appDatabase.appDao();
     }
 
-    public static synchronized ParametersRepository getInstance() {
-        if (instance == null) {
-            instance = new ParametersRepository();
-        }
 
+    public static synchronized ParametersRepository getInstance(Application app) {
+        if (instance == null) {
+            instance = new ParametersRepository(app);
+        }
         return instance;
+    }
+    public void setAppDao(Application app){
+        AppDatabase appDatabase=AppDatabase.getInstance(app);
+        appDao=appDatabase.appDao();
     }
 
     public void updateParametersTodayDummyData(int amount) {
@@ -271,4 +282,41 @@ public class ParametersRepository {
     public LiveData<Boolean> isLoading() {
         return isLoading;
     }
+
+
+
+/////
+
+    public void insert(Preferences fav){
+        new InsertAsyncTask(appDao).execute(fav);
+    }
+
+    private static class InsertAsyncTask extends AsyncTask<Preferences,Void,Void> {
+
+        private AppDao appDao;
+
+        private InsertAsyncTask(AppDao appDao){
+            this.appDao=appDao;
+        }
+
+
+        @Override
+        protected Void doInBackground(Preferences... preferencess) {
+            appDao.insert(preferencess[0]);
+
+            return null;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
