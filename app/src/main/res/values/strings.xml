@@ -33,5 +33,7 @@
     <string name="str_humidity">Humidity</string>
     <string name="str_temperature">Temperature</string>
     <string name="update">UPDATE</string>
+    <string name="generate_report">Generate Report</string>
+    <string name="reports">Reports</string>
 
 </resources>

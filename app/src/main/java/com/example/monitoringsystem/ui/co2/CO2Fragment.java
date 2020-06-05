@@ -213,11 +213,7 @@ public class CO2Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        try {
-            CO2ViewModel.updateParametersFromTo(time_fromCO2.getText().toString(), time_toCO2.getText().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        CO2ViewModel.updateParametersFromTo(time_fromCO2.getText().toString(), time_toCO2.getText().toString());
     }
 
     private void initRecyclerView() {
@@ -280,6 +276,7 @@ public class CO2Fragment extends Fragment {
         };
         new DatePickerDialog(requireContext(), dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
+
 
     @SuppressWarnings("deprecation")
     private void configureLineChart() {
