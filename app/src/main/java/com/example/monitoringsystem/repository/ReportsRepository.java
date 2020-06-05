@@ -1,7 +1,6 @@
 package com.example.monitoringsystem.repository;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -9,10 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.monitoringsystem.API.API;
 import com.example.monitoringsystem.API.ApiConsumer;
-import com.example.monitoringsystem.model.Parameters;
-import com.example.monitoringsystem.repository.Database.AppDao;
-import com.example.monitoringsystem.repository.Database.AppDatabase;
-import com.example.monitoringsystem.repository.Database.Preferences;
+import com.example.monitoringsystem.model.Reports;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,30 +28,28 @@ import retrofit2.Retrofit;
 
 import static java.lang.String.valueOf;
 
-public class ParametersRepository {
+public class ReportsRepository {
 
-    private static final String TAG = "ParametersRepository";
-    private static ParametersRepository instance;
-
-    private MutableLiveData<List<Parameters>> parameters;
+    private static final String TAG = "ReportsRepository";
+    private static ReportsRepository instance;
+    private MutableLiveData<List<Reports>> reports;
     private MutableLiveData<Boolean> isLoading;
 
-    public ParametersRepository(Application app) {
-        parameters = new MutableLiveData<>();
-        isLoading = new MutableLiveData<>();
+    public ReportsRepository(Application app) {
+        this.reports = new MutableLiveData<>();
+        this.isLoading = new MutableLiveData<>();
     }
 
-
-    public static synchronized ParametersRepository getInstance(Application app) {
+    public static synchronized ReportsRepository getInstance(Application app) {
         if (instance == null) {
-            instance = new ParametersRepository(app);
+            instance = new ReportsRepository(app);
         }
         return instance;
     }
 
-    public void updateParametersTodayDummyData(int amount) {
+    public void updateReportsTodayDummyData(int amount) {
         isLoading.postValue(true);
-        List<Parameters> dummyData = new ArrayList<>();
+        List<Reports> dummyData = new ArrayList<>();
 
         int minute = 0;
         int hour = 12;
@@ -106,23 +100,23 @@ public class ParametersRepository {
                     + month_string.toString()
                     + year;
 
-            dummyData.add(new Parameters("humidity", "unitType", i, timestamp_sb));
-            dummyData.add(new Parameters("CO2", "unitType", i, timestamp_sb));
-            dummyData.add(new Parameters("temperature", "unitType", i, timestamp_sb));
+            dummyData.add(new Reports(123, 69, 100, timestamp_sb));
+            dummyData.add(new Reports(123,24,20,timestamp_sb));
+
 
             minute = minute + 5;
         }
 
-        parameters.postValue(dummyData);
+        reports.postValue(dummyData);
         isLoading.postValue(false);
     }
 
 
-    public void updateParametersFromToDummyData(String from, String to) throws ParseException {
+    public void updateReportsFromToDummyData(String from, String to) throws ParseException {
 
 
         isLoading.postValue(true);
-        //List<Parameters> dummyData = new ArrayList<>();
+        List<Reports> dummyData = new ArrayList<>();
 
         String mf = "" + from.charAt(14) + from.charAt(15);
         int minute_from = Integer.parseInt(mf);
@@ -215,64 +209,65 @@ public class ParametersRepository {
             }
 
             Random random = new Random();
-            //dummyData.add(new Parameters("Humidity", "%", random.nextInt(100) , timestamp_sb));
-           // dummyData.add(new Parameters("CO2", "PPM", random.nextInt(100) , timestamp_sb));
-            //dummyData.add(new Parameters("Temperature", "C", random.nextInt(100) , timestamp_sb));
+            dummyData.add(new Reports(14, 40, random.nextInt(100) , timestamp_sb));
+            dummyData.add(new Reports(13, 50, random.nextInt(100) , timestamp_sb));
+            dummyData.add(new Reports(12, 60, random.nextInt(100) , timestamp_sb));
 
             minute_from += 5;
         }
-       // parameters.postValue(dummyData);
+        reports.postValue(dummyData);
         isLoading.postValue(false);
 
-
     }
 
-    public void updateParametersToday() {
+    public void updateReportsToday() {
         isLoading.setValue(true);
         Retrofit retrofit = ApiConsumer.getInstance().getRetrofitClient();
         API api = retrofit.create(API.class);
-        final Call<List<Parameters>> call = api.getParameters();
+        final Call<List<Reports>> call = api.getReports();
 
-        call.enqueue(new Callback<List<Parameters>>() {
+        call.enqueue(new Callback<List<Reports>>() {
             @Override
-            public void onResponse(@NotNull Call<List<Parameters>> call, @NotNull Response<List<Parameters>> response) {
-                parameters.postValue(response.body());
+            public void onResponse(@NotNull Call<List<Reports>> call, @NotNull Response<List<Reports>> response) {
+                reports.postValue(response.body());
                 isLoading.postValue(false);
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<Parameters>> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<List<Reports>> call, @NotNull Throwable t) {
                 Log.e(TAG, Objects.requireNonNull(t.getMessage()));
             }
         });
     }
 
-    public void updateParametersFromTo(String from, String to) {
+    public void updateReportsFromTo(String from, String to) {
         isLoading.setValue(true);
         Retrofit retrofit = ApiConsumer.getInstance().getRetrofitClient();
         API api = retrofit.create(API.class);
-        final Call<List<Parameters>> call = api.getParameters(from, to);
+        final Call<List<Reports>> call = api.getReports(from, to);
 
-        call.enqueue(new Callback<List<Parameters>>() {
+        call.enqueue(new Callback<List<Reports>>() {
             @Override
-            public void onResponse(@NotNull Call<List<Parameters>> call, @NotNull Response<List<Parameters>> response) {
-                parameters.postValue(response.body());
+            public void onResponse(@NotNull Call<List<Reports>> call, @NotNull Response<List<Reports>> response) {
+                reports.postValue(response.body());
                 isLoading.postValue(false);
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<Parameters>> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<List<Reports>> call, @NotNull Throwable t) {
                 Log.e(TAG, Objects.requireNonNull(t.getMessage()));
             }
         });
     }
 
 
-    public MutableLiveData<List<Parameters>> getParameters() {
-        return parameters;
+    public MutableLiveData<List<Reports>> getReports()
+    {
+        return reports;
     }
 
-    public LiveData<Boolean> isLoading() {
+    public LiveData<Boolean> isLoading()
+    {
         return isLoading;
     }
 

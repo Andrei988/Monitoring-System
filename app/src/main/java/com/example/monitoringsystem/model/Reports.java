@@ -13,13 +13,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Parameters {
-    @SerializedName("sensorName")
-    private String sensorName;
-    @SerializedName("unitType")
-    private String unitType;
-    @SerializedName("value")
-    private double value;
+public class Reports {
+    @SerializedName("avg_co2")
+    private double avg_co2;
+    @SerializedName("avg_humidity")
+    private double avg_humidity;
+    @SerializedName("avg_temperature")
+    private double avg_temperature;
     @SerializedName("timestamp")
-    private String timestamp; // TODO: tell database guys to send timestamp as STRING
+    private String timestamp;
 }

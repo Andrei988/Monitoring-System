@@ -25,7 +25,6 @@ public class ReportsActivity extends AppCompatActivity {
        String timestamp = Calendar.getInstance().getTime().toString();;
        double co2_avg, hum_avg, temp_avg;
 
-
        co2_avg = 0;
        hum_avg = 0;
        temp_avg = 0;
