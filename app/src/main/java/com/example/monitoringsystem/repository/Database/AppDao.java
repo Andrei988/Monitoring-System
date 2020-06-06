@@ -17,12 +17,21 @@ public interface AppDao {
     @Insert
     void insertNotification(Notification notification);
 
+    @Insert
+    void  insertReport(Report report);
+
     @Query("SELECT * FROM preferences_table")
     Preferences getPreferences();
 
     @Query("SELECT * FROM notifications_table")
     List<Notification> getNotifications();
 
+    @Query("SELECT * FROM report_table")
+    List<Report> getReports();
+
     @Delete
     void removeNotification(Notification notification);
+
+    @Delete
+    void removeReport(Report report);
 }

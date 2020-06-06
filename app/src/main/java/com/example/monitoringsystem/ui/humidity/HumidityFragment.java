@@ -65,6 +65,7 @@ public class HumidityFragment extends Fragment {
     private TextView min_value;
     private TextView avg_value;
     private TextView currentValue;
+    private Button generateReportButton;
 
     public static HumidityFragment newInstance() {
         return new HumidityFragment();
@@ -261,6 +262,7 @@ public class HumidityFragment extends Fragment {
         min_value = view.findViewById(R.id.MIN_value);
         avg_value = view.findViewById(R.id.AVG_value);
         currentValue = view.findViewById(R.id.humidityCurrentValue);
+        generateReportButton = view.findViewById(R.id.buttonGenerateRepHum);
 
         Calendar now = Calendar.getInstance(); // setting current hour as "time to" and "time from" is time_to - 2
         //int now_hour = now.get(Calendar.HOUR_OF_DAY); //TODO: uncomment
@@ -296,6 +298,11 @@ public class HumidityFragment extends Fragment {
             }
         });
         initRecyclerView();
+
+        generateReportButton.setOnClickListener(v -> {
+
+        });
+
         return view;
     }
 

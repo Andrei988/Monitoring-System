@@ -1,7 +1,7 @@
 package com.example.monitoringsystem.repository;
 
 import com.example.monitoringsystem.model.Parameter;
-import com.example.monitoringsystem.model.Report;
+import com.example.monitoringsystem.repository.Database.Report;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

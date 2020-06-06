@@ -79,8 +79,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         this.listener = listener;
     }
 
-    ;
-
     public NotificationsAdapter(List<Notification> notifications, Context context) {
         this.context = context;
         this.notifications = new ArrayList<>();

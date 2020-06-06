@@ -105,12 +105,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    public void reportsGo(MenuItem item)
-    {
-        startActivity(new Intent(getApplicationContext(), ReportsActivity.class));
-        finish();
-	}
-	
     public void settingsfragment(MenuItem item) {
         Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
     }

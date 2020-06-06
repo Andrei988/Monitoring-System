@@ -1,39 +1,32 @@
 package com.example.monitoringsystem.repository;
 
 import android.app.Application;
-import android.util.Log;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.monitoringsystem.API.API;
-import com.example.monitoringsystem.API.ApiConsumer;
-import com.example.monitoringsystem.model.Report;
+import com.example.monitoringsystem.repository.Database.AppDao;
+import com.example.monitoringsystem.repository.Database.AppDatabase;
+import com.example.monitoringsystem.repository.Database.Report;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
-import static java.lang.String.valueOf;
+import java.util.concurrent.ExecutionException;
 
 public class ReportsRepository {
 
     private static final String TAG = "ReportsRepository";
+    private AppDao dao;
     private static ReportsRepository instance;
+    private API api;
+
     private MutableLiveData<List<Report>> reports;
-    private MutableLiveData<Boolean> isLoading;
 
     public ReportsRepository(Application app) {
-        this.reports = new MutableLiveData<>();
-        this.isLoading = new MutableLiveData<>();
+        AppDatabase appDatabase = AppDatabase.getInstance(app);
+        dao = appDatabase.appDao();
+        reports = new MutableLiveData<>();
     }
 
     public static synchronized ReportsRepository getInstance(Application app) {
@@ -43,126 +36,74 @@ public class ReportsRepository {
         return instance;
     }
 
-    public void updateReportsTodayDummyData(int amount) {
-        isLoading.postValue(true);
-        List<Report> dummyData = new ArrayList<>();
+    public void insert(Report report) throws ExecutionException, InterruptedException {
+        new ReportsRepository.InsertAsyncTask(dao).execute(report);
 
-        int minute = 0;
-        int hour = 12;
-        int date = 25;
-        int month = 5;
-        int year = 2020;
-
-        for (int i = 0; i <= amount; i++) {
-
-            if (minute == 60) {
-                minute = 0;
-                hour++;
-            } else if (hour == 24) {
-                hour = 0;
-                date++;
-            } else if (date == 30) {
-                date = 1;
-                month++;
-            } else if (month == 13) {
-                month = 1;
-                year++;
-            }
-
-            StringBuilder minute_string = new StringBuilder(valueOf(minute));
-            StringBuilder hour_string = new StringBuilder(valueOf(hour));
-            StringBuilder date_string = new StringBuilder(valueOf(date));
-            StringBuilder month_string = new StringBuilder(valueOf(month));
-
-            if (minute_string.length() == 1) {
-                minute_string = new StringBuilder(0 + minute_string.toString());
-            }
-
-            if (hour_string.length() == 1) {
-                hour_string = new StringBuilder(0 + hour_string.toString());
-            }
-
-            if (date_string.length() == 1) {
-                date_string = new StringBuilder(0 + date_string.toString());
-            }
-
-            if (month_string.length() == 1) {
-                month_string = new StringBuilder(0 + month_string.toString());
-            }
-
-            String timestamp_sb = minute_string.toString()
-                    + hour_string.toString()
-                    + date_string.toString()
-                    + month_string.toString()
-                    + year;
-
-            dummyData.add(new Report(123, 69, 100, timestamp_sb));
-            dummyData.add(new Report(123,24,20,timestamp_sb));
-
-
-            minute = minute + 5;
-        }
-
-        reports.postValue(dummyData);
-        isLoading.postValue(false);
+        List<Report> reports = getReportFromDB();
+        this.reports.postValue(reports);
     }
 
-
-    public void updateReportsFromToDummyData(String from, String to) throws ParseException {
-        isLoading.postValue(true);
-        reports.postValue(DummyData.updateReportsFromToDummyData(from, to));
-        isLoading.postValue(false);
+    public List<Report> getReportFromDB() throws ExecutionException, InterruptedException {
+        return new GetReport(dao).execute().get();
     }
 
-    public void updateReportsToday() {
-        isLoading.setValue(true);
-        Retrofit retrofit = ApiConsumer.getInstance().getRetrofitClient();
-        API api = retrofit.create(API.class);
-        final Call<List<Report>> call = api.getReports();
-
-        call.enqueue(new Callback<List<Report>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<Report>> call, @NotNull Response<List<Report>> response) {
-                reports.postValue(response.body());
-                isLoading.postValue(false);
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<List<Report>> call, @NotNull Throwable t) {
-                Log.e(TAG, Objects.requireNonNull(t.getMessage()));
-            }
-        });
-    }
-
-    public void updateReportsFromTo(String from, String to) {
-        isLoading.setValue(true);
-        Retrofit retrofit = ApiConsumer.getInstance().getRetrofitClient();
-        API api = retrofit.create(API.class);
-        final Call<List<Report>> call = api.getReports(from, to);
-
-        call.enqueue(new Callback<List<Report>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<Report>> call, @NotNull Response<List<Report>> response) {
-                reports.postValue(response.body());
-                isLoading.postValue(false);
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<List<Report>> call, @NotNull Throwable t) {
-                Log.e(TAG, Objects.requireNonNull(t.getMessage()));
-            }
-        });
-    }
-
-
-    public MutableLiveData<List<Report>> getReports()
-    {
+    public LiveData<List<Report>> getReports() {
         return reports;
     }
 
-    public LiveData<Boolean> isLoading()
-    {
-        return isLoading;
+
+    public void removeReport(int pos) throws ExecutionException, InterruptedException {
+        List<Report> list = getReportFromDB();
+        Report temp = list.get(pos);
+        new RemoveItemAsync(dao).execute(temp);
+    }
+
+    public static class RemoveItemAsync extends AsyncTask<Report, Void, Void> {
+        private AppDao dao;
+
+        private RemoveItemAsync(AppDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Report... reports) {
+            dao.removeReport(reports[0]);
+            return null;
+        }
+    }
+
+
+    public static class GetReport extends AsyncTask<Void, Void, List<Report>> {
+
+        private AppDao dao;
+
+        private GetReport(AppDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected List<Report> doInBackground(Void... voids) {
+            return dao.getReports();
+        }
+    }
+
+
+
+    private static class InsertAsyncTask extends AsyncTask<Report, Void, Void> {
+
+        private AppDao dao;
+
+        private InsertAsyncTask(AppDao appDao) {
+            this.dao = appDao;
+        }
+
+
+        @Override
+        protected Void doInBackground(Report... reports) {
+            dao.insertReport(reports[0]);
+
+            return null;
+        }
     }
 
 }

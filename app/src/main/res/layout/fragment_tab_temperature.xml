@@ -13,7 +13,7 @@
         android:inputType="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintHorizontal_bias="0.406"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
@@ -39,22 +39,22 @@
         android:inputType="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintHorizontal_bias="0.413"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.082" />
+        app:layout_constraintVertical_bias="0.084" />
 
     <TextView
         android:id="@+id/DateToLabelTemperature"
         android:layout_width="98dp"
         android:layout_height="42dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginBottom="54dp"
         android:text="Date To: "
         android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/linechartTemperature"
         app:layout_constraintEnd_toStartOf="@+id/dateAndTimeToTemperature"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/updateButtonTemperature"
@@ -63,10 +63,11 @@
         android:text="@string/update"
         app:layout_constraintBottom_toTopOf="@+id/linechartTemperature"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.269"
+        app:layout_constraintHorizontal_bias="0.019"
         app:layout_constraintStart_toEndOf="@+id/dateAndTimeFromTemperature"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.372" />
+        app:layout_constraintVertical_bias="0.547" />
+
 
     <ImageView
         android:layout_width="39dp"
@@ -74,11 +75,10 @@
         android:src="@drawable/temperature"
         app:layout_constraintBottom_toTopOf="@+id/linechartTemperature"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.881"
         app:layout_constraintStart_toEndOf="@+id/dateAndTimeFromTemperature"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.385" />
-
+        app:layout_constraintVertical_bias="0.578" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linechartTemperature"
@@ -212,5 +212,16 @@
         app:layout_constraintHorizontal_bias="0.407"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonGenerateRepTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/generate_report"
+        app:layout_constraintBottom_toTopOf="@+id/updateButtonTemperature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dateAndTimeFromTemperature"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,21 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/generateReport"
-        android:layout_width="145dp"
-        android:layout_height="56dp"
-        android:layout_weight="1"
-        android:text="@string/generate_report"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvReports" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvReports"
-        android:layout_width="407dp"
-        android:layout_height="589dp"
+        android:layout_width="409dp"
+        android:layout_height="726dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
