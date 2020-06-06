@@ -1,6 +1,9 @@
 package com.example.monitoringsystem;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "NewApi"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +53,34 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        //getWindow().setStatusBarColor(R.color.statusBar);
+        createNotificationChannels();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void createNotificationChannels(){
+        NotificationChannel co2_channel = new NotificationChannel(
+                "1",
+                "CO2_channel",
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        co2_channel.setDescription("random text");
+        NotificationChannel humidity_channel = new NotificationChannel(
+                "2",
+                "Humidity_channel",
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        humidity_channel.setDescription("random text");
+        NotificationChannel temperature_channel = new NotificationChannel(
+                "3",
+                "temperature_channel",
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        temperature_channel.setDescription("random text");
+
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.createNotificationChannel(co2_channel);
+        manager.createNotificationChannel(humidity_channel);
+        manager.createNotificationChannel(temperature_channel);
     }
 
     @Override
@@ -82,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
     public void settingsfragment(MenuItem item) {
-
-
         Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
     }
 }

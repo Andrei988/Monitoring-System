@@ -27,6 +27,9 @@ public class Preferences {
         this.maxTemp = maxTemp;
     }
 
+    public Preferences(){
+
+    }
 
 
 

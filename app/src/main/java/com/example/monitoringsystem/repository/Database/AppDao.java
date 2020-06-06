@@ -1,10 +1,10 @@
 package com.example.monitoringsystem.repository.Database;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
@@ -12,13 +12,17 @@ import java.util.List;
 public interface AppDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Preferences pref);
+    void setPreference(Preferences pref);
 
-    @Update
-    void update(Preferences pref);
+    @Insert
+    void insertNotification(Notification notification);
 
+    @Query("SELECT * FROM preferences_table")
+    Preferences getPreferences();
 
-    @Query("SELECT * FROM preferences_table WHERE username LIKE :name")
-    Preferences findPrefByUsername(String name);
+    @Query("SELECT * FROM notifications_table")
+    List<Notification> getNotifications();
 
+    @Delete
+    void removeNotification(Notification notification);
 }

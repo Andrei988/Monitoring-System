@@ -2,19 +2,18 @@ package com.example.monitoringsystem.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.monitoringsystem.R;
-import com.example.monitoringsystem.model.Parameters;
+import com.example.monitoringsystem.model.Parameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.ViewHolder> {
 
     private static final String TAG = "ParametersAdapter";
-    private List<Parameters> parameters;
+    private List<Parameter> parameters;
     private Context context;
     private OnItemClickListener listener;
 
@@ -35,6 +34,14 @@ public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.Vi
         return new ViewHolder(view, listener);
     }
 
+    public void addParameter(Parameter parameter) {
+        parameters.add(parameter);
+    }
+
+    public List<Parameter> getParametersRV() {
+        return parameters;
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -44,6 +51,9 @@ public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.Vi
             int value = (int) parameters.get(position).getValue();
             String unitType = parameters.get(position).getUnitType();
             holder.value.setText(value + unitType);
+            if(parameters.get(position).isNew()){
+                holder.card.setCardBackgroundColor(Color.LTGRAY);
+            }
         }
     }
 
@@ -66,7 +76,7 @@ public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.Vi
 
     ;
 
-    public ParametersAdapter(List<Parameters> parameters, Context context) {
+    public ParametersAdapter(List<Parameter> parameters, Context context) {
         this.parameters = new ArrayList<>();
         this.parameters = parameters;
         this.context = context;
@@ -74,15 +84,17 @@ public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name;
-        TextView value;
-        TextView timestamp;
+        private TextView name;
+        private TextView value;
+        private TextView timestamp;
+        private CardView card;
 
         ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             name = itemView.findViewById(R.id.nameRV);
             value = itemView.findViewById(R.id.valueRV);
             timestamp = itemView.findViewById(R.id.timeStampRV);
+            card = itemView.findViewById(R.id.card);
 
         }
     }

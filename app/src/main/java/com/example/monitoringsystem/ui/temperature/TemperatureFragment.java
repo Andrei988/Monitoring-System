@@ -2,6 +2,7 @@ package com.example.monitoringsystem.ui.temperature;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,7 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.monitoringsystem.Adapters.ParametersAdapter;
 import com.example.monitoringsystem.R;
-import com.example.monitoringsystem.model.Parameters;
+import com.example.monitoringsystem.model.Parameter;
+import com.example.monitoringsystem.repository.Database.Preferences;
 import com.example.monitoringsystem.utils.ValueFormatter;
 import com.example.monitoringsystem.utils.XAxisValueFormatter;
 import com.github.mikephil.charting.charts.LineChart;
@@ -38,12 +42,17 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import lombok.SneakyThrows;
 
 public class TemperatureFragment extends Fragment {
 
     private static final String TAG = "TemperatureFragment";
+    private static final String SENSOR_NAME = "Temperature";
+    private static final String MEASUREMENT_TYPE = "°C";
+
+    private NotificationManagerCompat notificationManager;
 
     private TemperatureViewModel temperatureViewModel;
     private LineChart lineChartTemperature;
@@ -56,7 +65,7 @@ public class TemperatureFragment extends Fragment {
     private TextView max_valueTemperature;
     private TextView min_valueTemperature;
     private TextView avg_valueTemperature;
-
+    private TextView currentValue;
 
     public static TemperatureFragment newInstance() {
         return new TemperatureFragment();
@@ -70,12 +79,91 @@ public class TemperatureFragment extends Fragment {
         super.onCreate(savedInstanceState);
        temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
 
+        notificationManager = NotificationManagerCompat.from(requireContext());
+
+        temperatureViewModel.getLastParameters().observe(this, parameters -> {
+            for (Parameter parameter : parameters) {
+                if (parameter.getSensorName().equals(SENSOR_NAME)) {
+                    currentValue.setText((int)parameter.getValue() + MEASUREMENT_TYPE);
+
+                    Preferences prefs = new Preferences();
+
+                    try {
+                        prefs = temperatureViewModel.getPreferences();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if(prefs == null) {
+                        prefs = new Preferences();
+                        prefs.setMaxCo2(100);
+                        prefs.setMinCo2(0);
+                        prefs.setMaxHumidity(100);
+                        prefs.setMinHumidity(0);
+                        prefs.setMaxTemp(100);
+                        prefs.setMinTemp(0);
+                    }
+
+
+                    if(parameter.getValue() > Objects.requireNonNull(prefs).getMaxTemp())
+                    {
+                        Notification notification = new NotificationCompat.Builder(requireContext(), "1")
+                                .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                                .setContentTitle("Temperature Alert!!!")
+                                .setContentText("MAX Value: " + prefs.getMaxTemp() + " Current value: " + (int)parameter.getValue()+MEASUREMENT_TYPE)
+                                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .build();
+
+                        notificationManager.notify(0, notification);
+                        try {
+                            temperatureViewModel.insertNotification(new com.example.monitoringsystem.repository.Database.Notification(
+                                    parameter.getTimestamp(),
+                                    "Temperature",
+                                    parameter.getValue(),
+                                    prefs.getMinCo2(),
+                                    prefs.getMaxCo2(),
+                                    MEASUREMENT_TYPE
+                            ));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else if(parameter.getValue() < prefs.getMinTemp())
+                    {
+                        Notification notification = new NotificationCompat.Builder(requireContext(), "1")
+                                .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                                .setContentTitle("Temperature Alert!!!")
+                                .setContentText("MIN Value: " + prefs.getMinTemp() + " Current value: " + (int)parameter.getValue()+MEASUREMENT_TYPE)
+                                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .build();
+                        notificationManager.notify(0, notification);
+                        try {
+                            temperatureViewModel.insertNotification(new com.example.monitoringsystem.repository.Database.Notification(
+                                    parameter.getTimestamp(),
+                                    "Temperature",
+                                    (int) parameter.getValue(),
+                                    prefs.getMinCo2(),
+                                    prefs.getMaxCo2(),
+                                    MEASUREMENT_TYPE
+                            ));
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                }
+            }
+        });
 
         temperatureViewModel.getParametersToday().observe(this, parameters -> { // parameters from dummy data
 
-            List<Parameters> temperatureParameters = new ArrayList<>();
+            List<Parameter> temperatureParameters = new ArrayList<>();
 
-            for(Parameters parametersItem : parameters) {
+            for(Parameter parametersItem : parameters) {
                 if(parametersItem.getSensorName().equals("Temperature")) {
                     temperatureParameters.add(parametersItem);
                 }
@@ -85,7 +173,7 @@ public class TemperatureFragment extends Fragment {
             int temp_value_max = 0;
             int temp_value_min = 100;
 
-            for(Parameters parametersItem : temperatureParameters) { // computing min, max and avg
+            for(Parameter parametersItem : temperatureParameters) { // computing min, max and avg
                 temp_value_total+=parametersItem.getValue();
                 if(temp_value_max < parametersItem.getValue()) {
                     temp_value_max = (int) parametersItem.getValue();
@@ -101,28 +189,28 @@ public class TemperatureFragment extends Fragment {
 
             ArrayList<Entry> vals = new ArrayList<>();
 
-            List<List<Parameters>> dataChunks = new ArrayList<>();
-            Parameters parametersArray[] = temperatureParameters.toArray(new Parameters[0]);
-            Parameters chunkArray[];
+            List<List<Parameter>> dataChunks = new ArrayList<>();
+            Parameter parametersArray[] = temperatureParameters.toArray(new Parameter[0]);
+            Parameter chunkArray[];
             int initialRatio = temperatureParameters.size() / 5;
             int ratio = temperatureParameters.size() / 5;
 
             for (int i = 0; i < temperatureParameters.size(); i += initialRatio) {
                 try {
                     chunkArray = Arrays.copyOfRange(parametersArray, i, ratio);
-                    List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
+                    List<Parameter> chunkList = new ArrayList<Parameter>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
                 } catch (IndexOutOfBoundsException e) {
                     chunkArray = Arrays.copyOfRange(parametersArray, i, temperatureParameters.size() - 1);
-                    List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
+                    List<Parameter> chunkList = new ArrayList<Parameter>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
                 }
             }
-            for (List<Parameters> parametersChunk : dataChunks) {
+            for (List<Parameter> parametersChunk : dataChunks) {
                 parametersChunk.removeAll(Collections.singletonList(null)); // removing null objects from a chunk
-                Parameters lastParameter = parametersChunk.get(parametersChunk.size() - 1); // last parameter from a chunk
+                Parameter lastParameter = parametersChunk.get(parametersChunk.size() - 1); // last parameter from a chunk
 
                 String timestamp = lastParameter.getTimestamp();
                 String hoursNow = timestamp.charAt(11) + "" + timestamp.charAt(12); // string hour from the timestamp
@@ -175,9 +263,11 @@ public class TemperatureFragment extends Fragment {
         max_valueTemperature = view.findViewById(R.id.MAX_valueTemperature);
         min_valueTemperature = view.findViewById(R.id.MIN_valueTemperature);
         avg_valueTemperature = view.findViewById(R.id.AVG_valueTemperature);
+        currentValue = view.findViewById(R.id.temperatureCurrentValue);
 
         Calendar now = Calendar.getInstance(); // setting current hour as "time to" and "time from" is time_to - 2
-        int now_hour = now.get(Calendar.HOUR_OF_DAY);
+        //int now_hour = now.get(Calendar.HOUR_OF_DAY); //TODO: uncomment
+        int now_hour = 12;
         int now_minute = now.get(Calendar.MINUTE);
         int now_day = now.get(Calendar.DAY_OF_MONTH);
         int now_month = now.get(Calendar.MONTH) + 1; // it gives month - 1 don't know why
@@ -220,11 +310,40 @@ public class TemperatureFragment extends Fragment {
     }
 
    private void initRecyclerView() {
+
+       temperatureViewModel.getLastParameters().observe(this.getViewLifecycleOwner(), parameters -> {
+
+           List<Parameter> params = new ArrayList<>();
+
+           for (Parameter parameter : parameters) {
+               if (parameter.getSensorName().equals(SENSOR_NAME)) {
+                   parameter.setNew(true);
+                   params.add(parameter);
+               }
+           }
+
+           if(parametersAdapter!=null) {
+               List<Parameter> rwParams = parametersAdapter.getParametersRV();
+
+               if(rwParams != null) {
+                   for (Parameter parameter : rwParams) {
+                       params.add(parameter);
+                   }
+               }
+           }
+
+
+           recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+           parametersAdapter = new ParametersAdapter(params, getActivity());
+           recyclerView.setAdapter(parametersAdapter);
+
+       });
+
         temperatureViewModel.getParametersToday().observe(this.getViewLifecycleOwner(), parameters -> {
 
-            List<Parameters> temperatureParameters = new ArrayList<>();
+            List<Parameter> temperatureParameters = new ArrayList<>();
 
-            for(Parameters parametersItem : parameters) {
+            for(Parameter parametersItem : parameters) {
                 if(parametersItem.getSensorName().equals("Temperature")) {
                     temperatureParameters.add(parametersItem);
                 }

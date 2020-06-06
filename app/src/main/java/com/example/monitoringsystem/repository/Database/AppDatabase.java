@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import io.reactivex.annotations.NonNull;
 
-@Database(entities = {Preferences.class},version = 1,exportSchema = false)
+@Database(entities = {Preferences.class, Notification.class},version = 4,exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;

@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class DefaultValue {
     @SerializedName("parameters")
-    private Parameters parameters;
+    private Parameter parameters;
     @SerializedName("value")
     private int value;
 }

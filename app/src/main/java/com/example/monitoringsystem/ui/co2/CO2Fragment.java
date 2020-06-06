@@ -2,6 +2,7 @@ package com.example.monitoringsystem.ui.co2;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,15 +12,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.monitoringsystem.Adapters.NotificationsAdapter;
 import com.example.monitoringsystem.Adapters.ParametersAdapter;
 import com.example.monitoringsystem.R;
-import com.example.monitoringsystem.model.Parameters;
+import com.example.monitoringsystem.model.Parameter;
+import com.example.monitoringsystem.repository.Database.Preferences;
 import com.example.monitoringsystem.utils.ValueFormatter;
 import com.example.monitoringsystem.utils.XAxisValueFormatter;
 import com.github.mikephil.charting.charts.LineChart;
@@ -28,6 +36,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,24 +44,30 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import lombok.SneakyThrows;
 
 public class CO2Fragment extends Fragment {
 
     private static final String TAG = "CO2Fragment";
+    private static final String SENSOR_NAME = "CO2";
+    private static final String MEASUREMENT_TYPE = "PPM";
+
+    private NotificationManagerCompat notificationManager;
 
     private CO2ViewModel CO2ViewModel;
     private LineChart lineChartCO2;
     private ProgressBar mProgressBarCO2;
     private EditText time_fromCO2;
     private EditText time_toCO2;
-    private RecyclerView recyclerViewCO2;
+    private RecyclerView recyclerView;
     private ParametersAdapter parametersAdapter;
     private Button updateButtonCO2;
     private TextView max_valueCO2;
     private TextView min_valueCO2;
     private TextView avg_valueCO2;
+    private TextView currentValue;
 
 
     public static CO2Fragment newInstance() {
@@ -67,13 +82,90 @@ public class CO2Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         CO2ViewModel = new ViewModelProvider(this).get(CO2ViewModel.class);
 
+        notificationManager = NotificationManagerCompat.from(requireContext());
 
-        CO2ViewModel.getParametersToday().observe(this, parameters -> { // parameters from dummy data
+        CO2ViewModel.getLastParameters().observe(this, parameters -> {
+            for (Parameter parameter : parameters) {
+                if (parameter.getSensorName().equals(SENSOR_NAME)) {
+                    currentValue.setText((int) parameter.getValue() + MEASUREMENT_TYPE);
 
-            List<Parameters> co2Parameters = new ArrayList<>();
+                    Preferences prefs = new Preferences();
 
-            for(Parameters parametersItem : parameters) {
-                if(parametersItem.getSensorName().equals("CO2")) {
+                    try {
+                        prefs = CO2ViewModel.getPreferences();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if (prefs == null) {
+                        prefs = new Preferences();
+                        prefs.setMaxCo2(100);
+                        prefs.setMinCo2(0);
+                        prefs.setMaxHumidity(100);
+                        prefs.setMinHumidity(0);
+                        prefs.setMaxTemp(100);
+                        prefs.setMinTemp(0);
+                    }
+
+                    if (parameter.getValue() > prefs.getMaxCo2()) {
+                        Notification notification = new NotificationCompat.Builder(requireContext(), "1")
+                                .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                                .setContentTitle("CO2 Alert!!!")
+                                .setContentText("MAX Value: " + prefs.getMaxCo2() + " Current value: " + (int) parameter.getValue() + MEASUREMENT_TYPE)
+                                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .build();
+
+                        notificationManager.notify(0, notification);
+
+                        try {
+                            CO2ViewModel.insertNotification(new com.example.monitoringsystem.repository.Database.Notification(
+                                    parameter.getTimestamp(),
+                                    "CO2",
+                                    parameter.getValue(),
+                                    prefs.getMinCo2(),
+                                    prefs.getMaxCo2(),
+                                    MEASUREMENT_TYPE
+                            ));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else if (parameter.getValue() < prefs.getMinCo2()) {
+                        Notification notification = new NotificationCompat.Builder(requireContext(), "1")
+                                .setSmallIcon(R.drawable.ic_warning_black_24dp)
+                                .setContentTitle("CO2 Alert!!!")
+                                .setContentText("MIN Value: " + prefs.getMinCo2() + " Current value: " + (int) parameter.getValue() + MEASUREMENT_TYPE)
+                                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .build();
+                        notificationManager.notify(0, notification);
+
+                        try {
+                            CO2ViewModel.insertNotification(new com.example.monitoringsystem.repository.Database.Notification(
+                                    parameter.getTimestamp(),
+                                    "CO2",
+                                    (int) parameter.getValue(),
+                                    prefs.getMinCo2(),
+                                    prefs.getMaxCo2(),
+                                    MEASUREMENT_TYPE
+                            ));
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                }
+            }
+        });
+
+        CO2ViewModel.getParameters().observe(this, parameters -> { // parameters from dummy data
+
+            List<Parameter> co2Parameters = new ArrayList<>();
+
+            for (Parameter parametersItem : parameters) {
+                if (parametersItem.getSensorName().equals(SENSOR_NAME)) {
                     co2Parameters.add(parametersItem);
                 }
             }
@@ -82,46 +174,46 @@ public class CO2Fragment extends Fragment {
             int co2_value_max = 0;
             int co2_value_min = 100;
 
-            for(Parameters parametersItem : co2Parameters) { // computing min, max and avg
-                co2_value_total=parametersItem.getValue();
-                if(co2_value_max < parametersItem.getValue()) {
+            for (Parameter parametersItem : co2Parameters) { // computing min, max and avg
+                co2_value_total = parametersItem.getValue();
+                if (co2_value_max < parametersItem.getValue()) {
                     co2_value_max = (int) parametersItem.getValue();
-                } else if(co2_value_min > parametersItem.getValue()) {
+                } else if (co2_value_min > parametersItem.getValue()) {
                     co2_value_min = (int) parametersItem.getValue();
                 }
             }
 
-            double co2_value_average = co2_value_total/co2Parameters.size();
-            avg_valueCO2.setText(co2_value_average + "PPM");
-            min_valueCO2.setText(co2_value_min + "PPM");
-            max_valueCO2.setText(co2_value_max + "PPM");
+            double co2_value_average = co2_value_total / co2Parameters.size();
+            avg_valueCO2.setText(co2_value_average + MEASUREMENT_TYPE);
+            min_valueCO2.setText(co2_value_min + MEASUREMENT_TYPE);
+            max_valueCO2.setText(co2_value_max + MEASUREMENT_TYPE);
 
             ArrayList<Entry> vals = new ArrayList<>(); // data entry for chart
 
-            List<List<Parameters>> dataChunks = new ArrayList<>(); // list that holds parameters as parameter chunks
-            Parameters parametersArray[] = co2Parameters.toArray(new Parameters[0]);
-            Parameters chunkArray[];
+            List<List<Parameter>> dataChunks = new ArrayList<>(); // list that holds parameters as parameter chunks
+            Parameter parametersArray[] = co2Parameters.toArray(new Parameter[0]);
+            Parameter chunkArray[];
             int initialRatio = co2Parameters.size() / 5;
             int ratio = co2Parameters.size() / 5;
 
             for (int i = 0; i < co2Parameters.size(); i += initialRatio) { // logic that gets parameters chunks and adding them to dataChunks list
                 try {
                     chunkArray = Arrays.copyOfRange(parametersArray, i, ratio);
-                    List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
+                    List<Parameter> chunkList = new ArrayList<Parameter>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
                 } catch (IndexOutOfBoundsException e) {
                     chunkArray = Arrays.copyOfRange(parametersArray, i, co2Parameters.size() - 1);
-                    List<Parameters> chunkList = new ArrayList<Parameters>(Arrays.asList(chunkArray));
+                    List<Parameter> chunkList = new ArrayList<Parameter>(Arrays.asList(chunkArray));
                     dataChunks.add(chunkList);
                     ratio += initialRatio;
                 }
             }
-            for (List<Parameters> parametersChunk : dataChunks) {
+            for (List<Parameter> parametersChunk : dataChunks) {
                 parametersChunk.removeAll(Collections.singletonList(null)); // removing null objects from a chunk
-                Parameters lastParameter = parametersChunk.get(parametersChunk.size() - 1); // last parameter from a chunk
+                Parameter lastParameter = parametersChunk.get(parametersChunk.size() - 1); // last parameter from a chunk
 
-                if (lastParameter.getSensorName().equals("CO2")) { // co2 check
+                if (lastParameter.getSensorName().equals(SENSOR_NAME)) { // co2 check
                     String timestamp = lastParameter.getTimestamp();
                     String hoursNow = timestamp.charAt(11) + "" + timestamp.charAt(12); // string hour from the timestamp
                     String minutesNow = timestamp.charAt(14) + "" + timestamp.charAt(15); // string minutes from the timestamp
@@ -168,13 +260,15 @@ public class CO2Fragment extends Fragment {
         time_fromCO2 = view.findViewById(R.id.dateAndTimeFromCO2);
         time_toCO2 = view.findViewById(R.id.dateAndTimeToCO2);
         updateButtonCO2 = view.findViewById(R.id.updateButtonCO2);
-        recyclerViewCO2 = view.findViewById(R.id.rvCO2);
+        recyclerView = view.findViewById(R.id.rvCO2);
         max_valueCO2 = view.findViewById(R.id.MAX_valueCO2);
         min_valueCO2 = view.findViewById(R.id.MIN_valueCO2);
         avg_valueCO2 = view.findViewById(R.id.AVG_valueCO2);
+        currentValue = view.findViewById(R.id.co2CurrentValue);
 
         Calendar now = Calendar.getInstance(); // setting current hour as "time to" and "time from" is time_to - 2
-        int now_hour = now.get(Calendar.HOUR_OF_DAY);
+        //int now_hour = now.get(Calendar.HOUR_OF_DAY); //TODO: uncomment
+        int now_hour = 12;
         int now_minute = now.get(Calendar.MINUTE);
         int now_day = now.get(Calendar.DAY_OF_MONTH);
         int now_month = now.get(Calendar.MONTH) + 1; // it gives month - 1 don't know why
@@ -192,8 +286,8 @@ public class CO2Fragment extends Fragment {
             now_minute_string += now_minute;
         }
 
-        time_fromCO2.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
-        time_toCO2.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
+        time_fromCO2.setText("0" + now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
+        time_toCO2.setText("0" + now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
 
         time_fromCO2.setOnClickListener(v -> showDateTimeDialogFrom(time_fromCO2));
         time_toCO2.setOnClickListener(v -> showDateTimeDialogTo(time_toCO2));
@@ -217,19 +311,48 @@ public class CO2Fragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        CO2ViewModel.getParametersToday().observe(this.getViewLifecycleOwner(), parameters -> {
 
-            List<Parameters> CO2Parameters = new ArrayList<>();
+        CO2ViewModel.getLastParameters().observe(this.getViewLifecycleOwner(), parameters -> {
 
-            for(Parameters parametersItem : parameters) {
-                if(parametersItem.getSensorName().equals("CO2")) {
-                    CO2Parameters.add(parametersItem);
+            List<Parameter> params = new ArrayList<>();
+
+            for (Parameter parameter : parameters) {
+                if (parameter.getSensorName().equals(SENSOR_NAME)) {
+                    parameter.setNew(true);
+                    params.add(parameter);
                 }
             }
 
-            recyclerViewCO2.setLayoutManager(new LinearLayoutManager(getContext()));
+            if (parametersAdapter != null) {
+                List<Parameter> rwParams = parametersAdapter.getParametersRV();
+
+                if (rwParams != null) {
+                    for (Parameter parameter : rwParams) {
+                        params.add(parameter);
+                    }
+                }
+            }
+
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            parametersAdapter = new ParametersAdapter(params, getActivity());
+            recyclerView.setAdapter(parametersAdapter);
+
+        });
+
+        CO2ViewModel.getParameters().observe(this.getViewLifecycleOwner(), parameters -> {
+
+            List<Parameter> CO2Parameters = new ArrayList<>();
+
+            for (Parameter parameter : parameters) {
+                if (parameter.getSensorName().equals("CO2")) {
+                    CO2Parameters.add(parameter);
+                }
+            }
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             parametersAdapter = new ParametersAdapter(CO2Parameters, getActivity());
-            recyclerViewCO2.setAdapter(parametersAdapter);
+            recyclerView.setAdapter(parametersAdapter);
         });
     }
 
