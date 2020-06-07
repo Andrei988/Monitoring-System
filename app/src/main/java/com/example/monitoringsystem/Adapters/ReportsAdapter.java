@@ -1,5 +1,6 @@
 package com.example.monitoringsystem.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.VHolder>
         return new ReportsAdapter.VHolder(view, listener);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull VHolder holder, int position) {
         if (reports != null && position <= reports.size())
@@ -39,7 +41,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.VHolder>
             holder.co2Value.setText(reports.get(position).getCurrent_co2() + " ");
             holder.humValue.setText(reports.get(position).getCurrent_humidity() + " ");
             holder.tempValue.setText(reports.get(position).getCurrent_temperature() + " ");
-            holder.timestamp.setText(reports.get(position).getTimestamp()+ " ");
+            holder.timestamp.setText(reports.get(position).getTimestamp());
         }
     }
 
@@ -55,7 +57,6 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.VHolder>
     public interface OnItemClickListener {
         void onRemoveClickListener(int position) throws ExecutionException, InterruptedException;
     }
-
 
     public void setOnClickListener(ReportsAdapter.OnItemClickListener listener) {
         this.listener = listener;

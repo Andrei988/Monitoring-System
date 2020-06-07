@@ -39,10 +39,9 @@ public class ReportsFragment extends Fragment {
 
             reportsAdapter.setOnClickListener(position -> {
                 reportsViewModel.removeItem(position);
-                Toast.makeText(getContext(), "Item removed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Report removed", Toast.LENGTH_SHORT).show();
                 reportsAdapter.notifyDataSetChanged();
             });
-
         });
     }
 
@@ -50,9 +49,7 @@ public class ReportsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reports, container, false);
 
-
         recyclerView = view.findViewById(R.id.rvReports);
-
 
         return view;
     }
