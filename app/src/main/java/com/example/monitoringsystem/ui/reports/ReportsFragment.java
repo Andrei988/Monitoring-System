@@ -20,6 +20,7 @@ import lombok.SneakyThrows;
 
 public class ReportsFragment extends Fragment {
 
+
     private ReportsViewModel reportsViewModel;
 
     private RecyclerView recyclerView;
@@ -30,7 +31,7 @@ public class ReportsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         reportsViewModel = new ViewModelProvider(this).get(ReportsViewModel.class);
-        reportsViewModel.getNotifications().observe(this, reports -> {
+        reportsViewModel.getReports().observe(this, reports -> {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             reportsAdapter = new ReportsAdapter(reports, getActivity());
@@ -47,7 +48,7 @@ public class ReportsFragment extends Fragment {
 
     @SneakyThrows
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notifications, container, false);
+        View view = inflater.inflate(R.layout.fragment_reports, container, false);
 
 
         recyclerView = view.findViewById(R.id.rvReports);

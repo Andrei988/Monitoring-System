@@ -29,22 +29,22 @@
                     android:id="@+id/co2ReportValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="68dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
                     android:text="CO2 Value:"
                     app:layout_constraintBottom_toTopOf="@+id/reportCO2Value"
-                    app:layout_constraintStart_toEndOf="@+id/reportValueText"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.173" />
 
                 <TextView
                     android:id="@+id/reportCO2Value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:text="default"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.286"
+                    app:layout_constraintHorizontal_bias="0.025"
                     app:layout_constraintStart_toEndOf="@+id/co2ReportValueText"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,44 +52,43 @@
                     android:id="@+id/humidityReportValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="56dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
                     android:text="Humidity Value:"
-                    app:layout_constraintStart_toEndOf="@+id/reportValueText"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/co2ReportValueText" />
 
                 <TextView
                     android:id="@+id/reportValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
                     android:text="Date:"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.107"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintHorizontal_bias="0.033"
+                    app:layout_constraintStart_toEndOf="@+id/reportDateTextValue"
+                    app:layout_constraintTop_toBottomOf="@+id/temperatureReportValueText"
+                    app:layout_constraintVertical_bias="0.333" />
 
                 <TextView
                     android:id="@+id/reportDateTextValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
+                    android:layout_marginStart="20dp"
                     android:text="TextView"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/humidityReportValueText"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/reportValueText"
-                    app:layout_constraintVertical_bias="0.285" />
+                    app:layout_constraintTop_toBottomOf="@+id/temperatureReportValueText"
+                    app:layout_constraintVertical_bias="0.333" />
 
                 <TextView
                     android:id="@+id/reportHumidityValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:text="default"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.194"
+                    app:layout_constraintHorizontal_bias="0.04"
                     app:layout_constraintStart_toEndOf="@+id/humidityReportValueText"
                     app:layout_constraintTop_toBottomOf="@+id/reportCO2Value" />
 
@@ -97,37 +96,39 @@
                     android:id="@+id/temperatureReportValueText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="6dp"
                     android:text="Temperature Value:"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/reportValueText"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/humidityReportValueText"
-                    app:layout_constraintVertical_bias="0.285" />
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/reportTempValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="40dp"
                     android:text="default"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.138"
+                    app:layout_constraintEnd_toStartOf="@+id/buttonDeleteReport"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/temperatureReportValueText"
                     app:layout_constraintTop_toBottomOf="@+id/reportHumidityValue"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.666" />
 
                 <Button
                     android:id="@+id/buttonDeleteReport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="40dp"
                     android:text="Delete"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/reportHumidityValue"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.41" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>

@@ -41,6 +41,7 @@ public class ReportsRepository {
 
         List<Report> reports = getReportFromDB();
         this.reports.postValue(reports);
+
     }
 
     public List<Report> getReportFromDB() throws ExecutionException, InterruptedException {

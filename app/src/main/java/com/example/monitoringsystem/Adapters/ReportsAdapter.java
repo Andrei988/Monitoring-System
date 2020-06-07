@@ -28,7 +28,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.VHolder>
     @Override
     public ReportsAdapter.VHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.rw_notifications_item, parent, false);
+        View view = inflater.inflate(R.layout.rw_reports_items, parent, false);
         return new ReportsAdapter.VHolder(view, listener);
     }
 
@@ -38,7 +38,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.VHolder>
         {
             holder.co2Value.setText(reports.get(position).getCurrent_co2() + " ");
             holder.humValue.setText(reports.get(position).getCurrent_humidity() + " ");
-            holder.tempValue.setText(reports.get(position).getCurrent_temperature() + "");
+            holder.tempValue.setText(reports.get(position).getCurrent_temperature() + " ");
             holder.timestamp.setText(reports.get(position).getTimestamp()+ " ");
         }
     }
@@ -61,7 +61,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.VHolder>
         this.listener = listener;
     }
 
-    public ReportsAdapter(List<Report> notifications, Context context) {
+    public ReportsAdapter(List<Report> reports, Context context) {
         this.context = context;
         this.reports = new ArrayList<>();
         this.reports = reports;

@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -68,6 +69,7 @@ public class CO2Fragment extends Fragment {
     private TextView min_valueCO2;
     private TextView avg_valueCO2;
     private TextView currentValue;
+    private Button generateReportButton;
 
 
     public static CO2Fragment newInstance() {
@@ -158,6 +160,40 @@ public class CO2Fragment extends Fragment {
 
                 }
             }
+            generateReportButton.setOnClickListener(v -> {
+                double current_co2 = 0;
+                double current_hum = 0;
+                double current_temp = 0;
+                Date currentTime = Calendar.getInstance().getTime();
+                String timestamp = currentTime.toString();
+
+
+                for (Parameter parametersItem : parameters)
+                    switch (parametersItem.getSensorName())
+                    {
+                        case "CO2":
+                            current_co2 = parametersItem.getValue();
+                            break;
+                        case "Humidity":
+                            current_hum = parametersItem.getValue();
+                            break;
+                        case "Temperature":
+                            current_temp = parametersItem.getValue();
+                            break;
+                    }
+                try {
+                    CO2ViewModel.insertReport(new com.example.monitoringsystem.repository.Database.Report(
+                            current_co2,
+                            current_hum,
+                            current_temp,
+                            timestamp
+                    ));
+                    Toast.makeText(getContext(), "Report Created", Toast.LENGTH_SHORT).show();
+                }
+                catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
         });
 
         CO2ViewModel.getParameters().observe(this, parameters -> { // parameters from dummy data
@@ -265,6 +301,7 @@ public class CO2Fragment extends Fragment {
         min_valueCO2 = view.findViewById(R.id.MIN_valueCO2);
         avg_valueCO2 = view.findViewById(R.id.AVG_valueCO2);
         currentValue = view.findViewById(R.id.co2CurrentValue);
+        generateReportButton = view.findViewById(R.id.buttonGeneratRepCO2);
 
         Calendar now = Calendar.getInstance(); // setting current hour as "time to" and "time from" is time_to - 2
         //int now_hour = now.get(Calendar.HOUR_OF_DAY); //TODO: uncomment
@@ -299,6 +336,7 @@ public class CO2Fragment extends Fragment {
                 e.printStackTrace();
             }
         });
+
         initRecyclerView();
         return view;
     }

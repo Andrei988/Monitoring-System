@@ -1,6 +1,7 @@
 package com.example.monitoringsystem.ui.humidity;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +28,8 @@ import com.example.monitoringsystem.Adapters.ParametersAdapter;
 import com.example.monitoringsystem.R;
 import com.example.monitoringsystem.model.Parameter;
 import com.example.monitoringsystem.repository.Database.Preferences;
+import com.example.monitoringsystem.repository.Database.Report;
+import com.example.monitoringsystem.ui.reports.ReportsViewModel;
 import com.example.monitoringsystem.utils.ValueFormatter;
 import com.example.monitoringsystem.utils.XAxisValueFormatter;
 import com.github.mikephil.charting.charts.LineChart;
@@ -41,7 +45,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import lombok.SneakyThrows;
 
@@ -155,7 +161,45 @@ public class HumidityFragment extends Fragment {
 
                 }
             }
+
+            generateReportButton.setOnClickListener(v -> {
+                double current_co2 = 0;
+                double current_hum = 0;
+                double current_temp = 0;
+                Date currentTime = Calendar.getInstance().getTime();
+                String timestamp = currentTime.toString();
+
+
+                for (Parameter parametersItem : parameters)
+                    switch (parametersItem.getSensorName())
+                    {
+                        case "CO2":
+                            current_co2 = parametersItem.getValue();
+                            break;
+                        case "Humidity":
+                            current_hum = parametersItem.getValue();
+                            break;
+                        case "Temperature":
+                            current_temp = parametersItem.getValue();
+                            break;
+                    }
+                try {
+                    humidityViewModel.insertReport(new com.example.monitoringsystem.repository.Database.Report(
+                            current_co2,
+                            current_hum,
+                            current_temp,
+                            timestamp
+                    ));
+                    Toast.makeText(getContext(), "Report Created", Toast.LENGTH_SHORT).show();
+                }
+                catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            });
         });
+
+
 
         humidityViewModel.getParameters().observe(this, parameters -> { // parameters from dummy data
 
@@ -298,11 +342,6 @@ public class HumidityFragment extends Fragment {
             }
         });
         initRecyclerView();
-
-        generateReportButton.setOnClickListener(v -> {
-
-        });
-
         return view;
     }
 

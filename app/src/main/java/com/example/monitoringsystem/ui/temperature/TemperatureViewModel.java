@@ -8,8 +8,10 @@ import androidx.lifecycle.LiveData;
 import com.example.monitoringsystem.model.Parameter;
 import com.example.monitoringsystem.repository.Database.Notification;
 import com.example.monitoringsystem.repository.Database.Preferences;
+import com.example.monitoringsystem.repository.Database.Report;
 import com.example.monitoringsystem.repository.NotificationsRepository;
 import com.example.monitoringsystem.repository.ParametersRepository;
+import com.example.monitoringsystem.repository.ReportsRepository;
 import com.example.monitoringsystem.repository.SettingsRepository;
 
 import java.text.ParseException;
@@ -23,12 +25,14 @@ public class TemperatureViewModel extends AndroidViewModel {
     private ParametersRepository repository;
     private SettingsRepository sRepository;
     private NotificationsRepository notificationsRepository;
+    private ReportsRepository reportsRepository;
 
     public TemperatureViewModel(Application application) {
         super(application);
         repository = ParametersRepository.getInstance(application);
         sRepository = SettingsRepository.getInstance(application);
         notificationsRepository = NotificationsRepository.getInstance(application);
+        reportsRepository = ReportsRepository.getInstance(application);
     }
 
     public LiveData<List<Parameter>> getParametersToday() {
@@ -53,5 +57,9 @@ public class TemperatureViewModel extends AndroidViewModel {
 
     public void insertNotification(Notification notification) throws ExecutionException, InterruptedException {
         notificationsRepository.insert(notification);
+    }
+
+    public void insertReport(Report report) throws ExecutionException, InterruptedException {
+        reportsRepository.insert(report);
     }
 }
