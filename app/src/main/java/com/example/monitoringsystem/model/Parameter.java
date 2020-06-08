@@ -14,14 +14,19 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Parameter {
+
     @SerializedName("sensorName")
     private String sensorName;
+
     @SerializedName("unitType")
     private String unitType;
+
     @SerializedName("value")
     private double value;
+
     @SerializedName("timestamp")
     private String timestamp;
+
     private boolean isNew;
 
     public Parameter(String humidity, String s, int nextInt, String s1) {
@@ -31,4 +36,5 @@ public class Parameter {
         timestamp = s1;
         isNew = false;
     }
+
 }

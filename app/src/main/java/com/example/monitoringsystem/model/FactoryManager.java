@@ -14,10 +14,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class FactoryManager {
+
     @SerializedName("email")
     private String email;
+
     @SerializedName("username")
     private String username;
+
     @SerializedName("password")
     private String password;
+
 }

@@ -30,7 +30,8 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar pBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         FirebaseApp.initializeApp(this);
@@ -49,7 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         }
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                String user = username.getText().toString();
@@ -81,10 +83,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                pBar.setVisibility(View.VISIBLE);
 
-               firebaseAuth.createUserWithEmailAndPassword(mail,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+               firebaseAuth.createUserWithEmailAndPassword(mail,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>()
+               {
                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                    @Override
-                   public void onComplete(@NonNull Task<AuthResult> task) {
+                   public void onComplete(@NonNull Task<AuthResult> task)
+                   {
                        if (task.isSuccessful())
                        {
                            Toast.makeText( RegisterActivity.this, "New User Created", Toast.LENGTH_SHORT).show();

@@ -101,8 +101,6 @@ public class ParametersRepository {
     }
 
 
-
-
     class liveData extends TimerTask {
         public void run() {
 

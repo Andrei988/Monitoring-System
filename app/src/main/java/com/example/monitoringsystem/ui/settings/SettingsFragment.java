@@ -40,14 +40,9 @@ public class SettingsFragment extends Fragment {
 
     @SneakyThrows
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-
-
-
-
-
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -108,6 +103,5 @@ public class SettingsFragment extends Fragment {
 
         return root;
     }
-
 
 }

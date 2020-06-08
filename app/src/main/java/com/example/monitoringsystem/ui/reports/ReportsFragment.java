@@ -20,7 +20,6 @@ import lombok.SneakyThrows;
 
 public class ReportsFragment extends Fragment {
 
-
     private ReportsViewModel reportsViewModel;
 
     private RecyclerView recyclerView;

@@ -14,8 +14,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class DefaultValue {
+
     @SerializedName("parameters")
     private Parameter parameters;
+
     @SerializedName("value")
     private int value;
+
 }

@@ -43,11 +43,13 @@ public class CO2ViewModel extends AndroidViewModel {
         return repository.isLoading();
     }
 
-    public void updateParametersFromTo(String from, String to) throws ParseException {
+    public void updateParametersFromTo(String from, String to) throws ParseException
+    {
         repository.updateParametersFromToDummyData(from, to);
     }
 
-    public void insertNotification(Notification notification) throws ExecutionException, InterruptedException {
+    public void insertNotification(Notification notification) throws ExecutionException, InterruptedException
+    {
         notificationsRepository.insert(notification);
     }
 
@@ -55,11 +57,13 @@ public class CO2ViewModel extends AndroidViewModel {
         return repository.getLastParameters();
     }
 
-    public Preferences getPreferences() throws ExecutionException, InterruptedException {
+    public Preferences getPreferences() throws ExecutionException, InterruptedException
+    {
         return sRepository.getPreferences();
     }
 
-    public void insertReport(Report report) throws ExecutionException, InterruptedException {
+    public void insertReport(Report report) throws ExecutionException, InterruptedException
+    {
         reportsRepository.insert(report);
     }
 

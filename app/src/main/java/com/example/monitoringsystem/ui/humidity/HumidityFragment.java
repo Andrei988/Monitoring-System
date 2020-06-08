@@ -1,7 +1,6 @@
 package com.example.monitoringsystem.ui.humidity;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.TimePickerDialog;
@@ -28,8 +27,6 @@ import com.example.monitoringsystem.Adapters.ParametersAdapter;
 import com.example.monitoringsystem.R;
 import com.example.monitoringsystem.model.Parameter;
 import com.example.monitoringsystem.repository.Database.Preferences;
-import com.example.monitoringsystem.repository.Database.Report;
-import com.example.monitoringsystem.ui.reports.ReportsViewModel;
 import com.example.monitoringsystem.utils.ValueFormatter;
 import com.example.monitoringsystem.utils.XAxisValueFormatter;
 import com.github.mikephil.charting.charts.LineChart;
@@ -200,7 +197,6 @@ public class HumidityFragment extends Fragment {
         });
 
 
-
         humidityViewModel.getParameters().observe(this, parameters -> { // parameters from dummy data
 
             List<Parameter> humidityParameters = new ArrayList<>();
@@ -250,6 +246,7 @@ public class HumidityFragment extends Fragment {
                     ratio += initialRatio;
                 }
             }
+
             for (List<Parameter> parametersChunk : dataChunks) {
                 parametersChunk.removeAll(Collections.singletonList(null)); // removing null objects from a chunk
                 Parameter lastParameter = parametersChunk.get(parametersChunk.size() - 1); // last parameter from a chunk
@@ -468,6 +465,5 @@ public class HumidityFragment extends Fragment {
         lineChart.getAxisLeft().setXOffset(15); // padding
 
     }
-
 
 }

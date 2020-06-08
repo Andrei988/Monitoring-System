@@ -1,11 +1,7 @@
 package com.example.monitoringsystem.utils;
 
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.utils.ViewPortHandler;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class XAxisValueFormatter implements IAxisValueFormatter {
     @Override

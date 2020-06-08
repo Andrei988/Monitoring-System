@@ -14,6 +14,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface API {
+
     @GET("/parameters")
     Call<List<Parameter>> getLastParameters();
 
@@ -39,4 +40,5 @@ public interface API {
             @Field("avg_temperature") double avg_temperature,
             @Field("timestamp") String timestamp
     );
+
 }

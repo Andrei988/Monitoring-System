@@ -27,10 +27,7 @@ public class Preferences {
         this.maxTemp = maxTemp;
     }
 
-    public Preferences(){
-
-    }
-
+    public Preferences(){ }
 
 
     public String getUsername() {

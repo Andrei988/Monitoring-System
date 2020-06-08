@@ -6,9 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.monitoringsystem.model.Parameter;
 import com.example.monitoringsystem.repository.Database.Report;
-import com.example.monitoringsystem.repository.ParametersRepository;
 import com.example.monitoringsystem.repository.ReportsRepository;
 
 import java.util.List;

@@ -1,15 +1,10 @@
 package com.example.monitoringsystem.ui.settings;
 
 import android.app.Application;
-import android.widget.EditText;
 
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.monitoringsystem.repository.Database.Preferences;
-import com.example.monitoringsystem.repository.ParametersRepository;
 import com.example.monitoringsystem.repository.SettingsRepository;
 
 import org.jetbrains.annotations.NotNull;

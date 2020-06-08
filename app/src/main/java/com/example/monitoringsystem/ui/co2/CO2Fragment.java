@@ -23,7 +23,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.monitoringsystem.Adapters.NotificationsAdapter;
 import com.example.monitoringsystem.Adapters.ParametersAdapter;
 import com.example.monitoringsystem.R;
 import com.example.monitoringsystem.model.Parameter;

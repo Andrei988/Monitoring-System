@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailLogin, passLogin;
     Button logBtn, signBtn;
     FirebaseAuth firebaseAuth;
-    
 
 
     @Override
@@ -31,8 +30,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_login);
-
-
         emailLogin = findViewById(R.id.emailAddressBox);
         passLogin = findViewById(R.id.passwordBox);
         logBtn = findViewById(R.id.loginButton);
@@ -46,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String pass = passLogin.getText().toString();
                 String mail = emailLogin.getText().toString();
-
 
                 if(TextUtils.isEmpty(pass))
                 {
@@ -82,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
         signBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

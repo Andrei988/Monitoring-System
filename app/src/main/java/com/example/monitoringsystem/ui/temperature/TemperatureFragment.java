@@ -467,5 +467,4 @@ public class TemperatureFragment extends Fragment {
 
     }
 
-
 }

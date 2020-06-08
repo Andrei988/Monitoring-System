@@ -1,14 +1,10 @@
 package com.example.monitoringsystem.repository.Database;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.sqlite.db.SupportSQLiteDatabase;
-
-import io.reactivex.annotations.NonNull;
 
 @Database(entities = {Preferences.class, Notification.class, Report.class},version = 5,exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

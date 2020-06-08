@@ -11,7 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiConsumer {
 
-
     private static final String TAG = "ServiceGenerator";
 
     private static final String BASE_URL = "http://localhost:8080";
@@ -41,4 +40,5 @@ public class ApiConsumer {
     public Retrofit getRetrofitClient() {
         return retrofit;
     }
+
 }

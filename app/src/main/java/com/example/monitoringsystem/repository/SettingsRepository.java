@@ -34,7 +34,6 @@ public class SettingsRepository {
     }
 
 
-
     public static class GetPreferences extends AsyncTask<Void, Void, Preferences> {
 
         private AppDao dao;

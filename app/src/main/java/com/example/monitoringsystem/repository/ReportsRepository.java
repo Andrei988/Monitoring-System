@@ -73,7 +73,6 @@ public class ReportsRepository {
         }
     }
 
-
     public static class GetReport extends AsyncTask<Void, Void, List<Report>> {
 
         private AppDao dao;
@@ -87,9 +86,7 @@ public class ReportsRepository {
             return dao.getReports();
         }
     }
-
-
-
+    
     private static class InsertAsyncTask extends AsyncTask<Report, Void, Void> {
 
         private AppDao dao;
@@ -97,7 +94,6 @@ public class ReportsRepository {
         private InsertAsyncTask(AppDao appDao) {
             this.dao = appDao;
         }
-
 
         @Override
         protected Void doInBackground(Report... reports) {
