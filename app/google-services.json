@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "689708599231",
+    "firebase_url": "https://monitoringsystem-61834.firebaseio.com",
+    "project_id": "monitoringsystem-61834",
+    "storage_bucket": "monitoringsystem-61834.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689708599231:android:836c6f856d1f0dfc67c30a",
+        "android_client_info": {
+          "package_name": "com.example.monitoringsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689708599231-pv6pq92vhvsfuj2tou9q41vlpdsjpbaj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.monitoringsystem",
+            "certificate_hash": "41925740c1832cffe31f7b91c077f22c4b8dc728"
+          }
+        },
+        {
+          "client_id": "689708599231-hghnb8ask8tnj4arqmpu809grr7m2638.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUpvRNZpZePlgOrv9z4G_jif-IuyOEKk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689708599231-hghnb8ask8tnj4arqmpu809grr7m2638.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

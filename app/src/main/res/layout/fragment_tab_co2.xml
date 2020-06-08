@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/dateAndTimeFromCO2"
+        android:layout_width="150dp"
+        android:layout_height="42dp"
+        android:focusable="false"
+        android:inputType="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <TextView
+        android:id="@+id/DateFromLabelCO2"
+        android:layout_width="98dp"
+        android:layout_height="42dp"
+        android:text="Date From: "
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/DateToLabelCO2"
+        app:layout_constraintEnd_toStartOf="@+id/dateAndTimeFromCO2"
+        app:layout_constraintHorizontal_bias="0.695"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/dateAndTimeToCO2"
+        android:layout_width="150dp"
+        android:layout_height="42dp"
+        android:focusable="false"
+        android:inputType="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.084" />
+
+    <TextView
+        android:id="@+id/DateToLabelCO2"
+        android:layout_width="98dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="56dp"
+        android:text="Date To: "
+        android:textSize="18dp"
+        app:layout_constraintEnd_toStartOf="@+id/dateAndTimeToCO2"
+        app:layout_constraintHorizontal_bias="0.695"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/updateButtonCO2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/update"
+        app:layout_constraintBottom_toTopOf="@+id/linechartCO2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/dateAndTimeFromCO2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.517" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="48dp"
+        android:layout_height="49dp"
+        android:src="@drawable/co2_icon"
+        app:layout_constraintBottom_toTopOf="@+id/linechartCO2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toEndOf="@+id/dateAndTimeFromCO2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.504" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/linechartCO2"
+        android:layout_width="361dp"
+        android:layout_height="187dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.294" />
+
+    <TextView
+        android:id="@+id/MAX_valueCO2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00PPM"
+        app:layout_constraintStart_toEndOf="@+id/MAX_labelCO2"
+        app:layout_constraintTop_toTopOf="@+id/MAX_labelCO2" />
+
+    <TextView
+        android:id="@+id/MAX_labelCO2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="MAX: "
+        app:layout_constraintEnd_toStartOf="@+id/MIN_labelCO2"
+        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dividerCO2" />
+
+    <TextView
+        android:id="@+id/MIN_labelCO2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MIN: "
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCO2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.435"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dividerCO2"
+        app:layout_constraintVertical_bias="0.181" />
+
+    <TextView
+        android:id="@+id/MIN_valueCO2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00PPM"
+        app:layout_constraintStart_toEndOf="@+id/MIN_labelCO2"
+        app:layout_constraintTop_toTopOf="@+id/MIN_labelCO2" />
+
+    <TextView
+        android:id="@+id/AVG_labelCO2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AVG: "
+        app:layout_constraintBottom_toBottomOf="@+id/MIN_labelCO2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.561"
+        app:layout_constraintStart_toEndOf="@+id/MIN_labelCO2"
+        app:layout_constraintTop_toTopOf="@+id/progressBarCO2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/AVG_valueCO2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00PPM"
+        app:layout_constraintStart_toEndOf="@+id/AVG_labelCO2"
+        app:layout_constraintTop_toTopOf="@+id/AVG_labelCO2" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCO2"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCO2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progressBarCO2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/dividerCO2"
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCO2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linechartCO2"
+        app:layout_constraintVertical_bias="0.333" />
+
+    <TextView
+        android:id="@+id/co2CurrentValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.559"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:text="Current:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.407"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonGeneratRepCO2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="@string/generate_report"
+        app:layout_constraintBottom_toTopOf="@+id/updateButtonCO2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/dateAndTimeFromCO2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
