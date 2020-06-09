@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.monitoringsystem.Adapters.ReportsAdapter;
 import com.example.monitoringsystem.R;
 
+import java.util.concurrent.ExecutionException;
+
 import lombok.SneakyThrows;
 
 public class ReportsFragment extends Fragment {
@@ -30,18 +32,24 @@ public class ReportsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         reportsViewModel = new ViewModelProvider(this).get(ReportsViewModel.class);
-        reportsViewModel.getReports().observe(this, reports -> {
+        try {
+            reportsViewModel.getReports().observe(this, reports -> {
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            reportsAdapter = new ReportsAdapter(reports, getActivity());
-            recyclerView.setAdapter(reportsAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                reportsAdapter = new ReportsAdapter(reports);
+                recyclerView.setAdapter(reportsAdapter);
 
-            reportsAdapter.setOnClickListener(position -> {
-                reportsViewModel.removeItem(position);
-                Toast.makeText(getContext(), "Report removed", Toast.LENGTH_SHORT).show();
-                reportsAdapter.notifyDataSetChanged();
+                reportsAdapter.setOnClickListener(position -> {
+                    reportsViewModel.removeItem(position);
+                    Toast.makeText(getContext(), "Report removed", Toast.LENGTH_SHORT).show();
+                    reportsAdapter.notifyDataSetChanged();
+                });
             });
-        });
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @SneakyThrows

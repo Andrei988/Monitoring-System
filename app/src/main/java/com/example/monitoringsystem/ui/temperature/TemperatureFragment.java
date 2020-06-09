@@ -74,6 +74,7 @@ public class TemperatureFragment extends Fragment {
     public static TemperatureFragment newInstance() {
         return new TemperatureFragment();
     }
+
     @SneakyThrows
     @SuppressLint("SetTextI18n")
     @SuppressWarnings("deprecation")
@@ -81,14 +82,14 @@ public class TemperatureFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
+        temperatureViewModel = new ViewModelProvider(this).get(TemperatureViewModel.class);
 
         notificationManager = NotificationManagerCompat.from(requireContext());
 
         temperatureViewModel.getLastParameters().observe(this, parameters -> {
             for (Parameter parameter : parameters) {
                 if (parameter.getSensorName().equals(SENSOR_NAME)) {
-                    currentValue.setText((int)parameter.getValue() + MEASUREMENT_TYPE);
+                    currentValue.setText((int) parameter.getValue() + MEASUREMENT_TYPE);
 
                     Preferences prefs = new Preferences();
 
@@ -98,7 +99,7 @@ public class TemperatureFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-                    if(prefs == null) {
+                    if (prefs == null) {
                         prefs = new Preferences();
                         prefs.setMaxCo2(100);
                         prefs.setMinCo2(0);
@@ -109,12 +110,11 @@ public class TemperatureFragment extends Fragment {
                     }
 
 
-                    if(parameter.getValue() > Objects.requireNonNull(prefs).getMaxTemp())
-                    {
+                    if (parameter.getValue() > Objects.requireNonNull(prefs).getMaxTemp()) {
                         Notification notification = new NotificationCompat.Builder(requireContext(), "1")
                                 .setSmallIcon(R.drawable.ic_warning_black_24dp)
                                 .setContentTitle("Temperature Alert!!!")
-                                .setContentText("MAX Value: " + prefs.getMaxTemp() + " Current value: " + (int)parameter.getValue()+MEASUREMENT_TYPE)
+                                .setContentText("MAX Value: " + prefs.getMaxTemp() + " Current value: " + (int) parameter.getValue() + MEASUREMENT_TYPE)
                                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                                 .build();
@@ -132,13 +132,11 @@ public class TemperatureFragment extends Fragment {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }
-                    else if(parameter.getValue() < prefs.getMinTemp())
-                    {
+                    } else if (parameter.getValue() < prefs.getMinTemp()) {
                         Notification notification = new NotificationCompat.Builder(requireContext(), "1")
                                 .setSmallIcon(R.drawable.ic_warning_black_24dp)
                                 .setContentTitle("Temperature Alert!!!")
-                                .setContentText("MIN Value: " + prefs.getMinTemp() + " Current value: " + (int)parameter.getValue()+MEASUREMENT_TYPE)
+                                .setContentText("MIN Value: " + prefs.getMinTemp() + " Current value: " + (int) parameter.getValue() + MEASUREMENT_TYPE)
                                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                                 .build();
@@ -170,8 +168,7 @@ public class TemperatureFragment extends Fragment {
 
 
                 for (Parameter parametersItem : parameters)
-                    switch (parametersItem.getSensorName())
-                    {
+                    switch (parametersItem.getSensorName()) {
                         case "CO2":
                             current_co2 = parametersItem.getValue();
                             break;
@@ -190,8 +187,7 @@ public class TemperatureFragment extends Fragment {
                             timestamp
                     ));
                     Toast.makeText(getContext(), "Report Created", Toast.LENGTH_SHORT).show();
-                }
-                catch (ExecutionException | InterruptedException e) {
+                } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
             });
@@ -201,8 +197,8 @@ public class TemperatureFragment extends Fragment {
 
             List<Parameter> temperatureParameters = new ArrayList<>();
 
-            for(Parameter parametersItem : parameters) {
-                if(parametersItem.getSensorName().equals("Temperature")) {
+            for (Parameter parametersItem : parameters) {
+                if (parametersItem.getSensorName().equals("Temperature")) {
                     temperatureParameters.add(parametersItem);
                 }
             }
@@ -211,16 +207,16 @@ public class TemperatureFragment extends Fragment {
             int temp_value_max = 0;
             int temp_value_min = 100;
 
-            for(Parameter parametersItem : temperatureParameters) { // computing min, max and avg
-                temp_value_total+=parametersItem.getValue();
-                if(temp_value_max < parametersItem.getValue()) {
+            for (Parameter parametersItem : temperatureParameters) { // computing min, max and avg
+                temp_value_total += parametersItem.getValue();
+                if (temp_value_max < parametersItem.getValue()) {
                     temp_value_max = (int) parametersItem.getValue();
-                } else if(temp_value_min > parametersItem.getValue()) {
+                } else if (temp_value_min > parametersItem.getValue()) {
                     temp_value_min = (int) parametersItem.getValue();
                 }
             }
 
-            int temp_value_average = temp_value_total/temperatureParameters.size();
+            int temp_value_average = temp_value_total / temperatureParameters.size();
             avg_valueTemperature.setText(temp_value_average + "°C");
             min_valueTemperature.setText(temp_value_min + "°C");
             max_valueTemperature.setText(temp_value_max + "°C");
@@ -297,7 +293,7 @@ public class TemperatureFragment extends Fragment {
         time_fromTemperature = view.findViewById(R.id.dateAndTimeFromTemperature);
         time_toTemperature = view.findViewById(R.id.dateAndTimeToTemperature);
         updateButtonTemperature = view.findViewById(R.id.updateButtonTemperature);
-        recyclerView= view.findViewById(R.id.temperaturerv);
+        recyclerView = view.findViewById(R.id.temperaturerv);
         max_valueTemperature = view.findViewById(R.id.MAX_valueTemperature);
         min_valueTemperature = view.findViewById(R.id.MIN_valueTemperature);
         avg_valueTemperature = view.findViewById(R.id.AVG_valueTemperature);
@@ -305,8 +301,7 @@ public class TemperatureFragment extends Fragment {
         generateReportButton = view.findViewById(R.id.buttonGenerateRepTemp);
 
         Calendar now = Calendar.getInstance(); // setting current hour as "time to" and "time from" is time_to - 2
-        //int now_hour = now.get(Calendar.HOUR_OF_DAY); //TODO: uncomment
-        int now_hour = 12;
+        int now_hour = now.get(Calendar.HOUR_OF_DAY);
         int now_minute = now.get(Calendar.MINUTE);
         int now_day = now.get(Calendar.DAY_OF_MONTH);
         int now_month = now.get(Calendar.MONTH) + 1; // it gives month - 1 don't know why
@@ -324,8 +319,8 @@ public class TemperatureFragment extends Fragment {
             now_minute_string += now_minute;
         }
 
-        time_fromTemperature.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
-        time_toTemperature.setText("0"+now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
+        time_fromTemperature.setText(now_day + "-" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
+        time_toTemperature.setText(now_day + "-" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
 
         time_fromTemperature.setOnClickListener(v -> showDateTimeDialogFrom(time_fromTemperature));
         time_toTemperature.setOnClickListener(v -> showDateTimeDialogTo(time_toTemperature));
@@ -346,45 +341,47 @@ public class TemperatureFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        temperatureViewModel.updateParametersFromTo(time_fromTemperature.getText().toString(), time_toTemperature.getText().toString());
+        try {
+            temperatureViewModel.updateParametersFromTo(time_fromTemperature.getText().toString(), time_toTemperature.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
-   private void initRecyclerView() {
+    private void initRecyclerView() {
 
-       temperatureViewModel.getLastParameters().observe(this.getViewLifecycleOwner(), parameters -> {
+        temperatureViewModel.getLastParameters().observe(this.getViewLifecycleOwner(), parameters -> {
 
-           List<Parameter> params = new ArrayList<>();
+            List<Parameter> params = new ArrayList<>();
 
-           for (Parameter parameter : parameters) {
-               if (parameter.getSensorName().equals(SENSOR_NAME)) {
-                   parameter.setNew(true);
-                   params.add(parameter);
-               }
-           }
+            for (Parameter parameter : parameters) {
+                if (parameter.getSensorName().equals(SENSOR_NAME)) {
+                    parameter.setNew(true);
+                    params.add(parameter);
+                }
+            }
 
-           if(parametersAdapter!=null) {
-               List<Parameter> rwParams = parametersAdapter.getParametersRV();
+            if (parametersAdapter != null) {
+                List<Parameter> rwParams = parametersAdapter.getParametersRV();
 
-               if(rwParams != null) {
-                   for (Parameter parameter : rwParams) {
-                       params.add(parameter);
-                   }
-               }
-           }
+                if (rwParams != null) {
+                    params.addAll(rwParams);
+                }
+            }
 
 
-           recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-           parametersAdapter = new ParametersAdapter(params, getActivity());
-           recyclerView.setAdapter(parametersAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            parametersAdapter = new ParametersAdapter(params, getActivity());
+            recyclerView.setAdapter(parametersAdapter);
 
-       });
+        });
 
         temperatureViewModel.getParametersToday().observe(this.getViewLifecycleOwner(), parameters -> {
 
             List<Parameter> temperatureParameters = new ArrayList<>();
 
-            for(Parameter parametersItem : parameters) {
-                if(parametersItem.getSensorName().equals("Temperature")) {
+            for (Parameter parametersItem : parameters) {
+                if (parametersItem.getSensorName().equals("Temperature")) {
                     temperatureParameters.add(parametersItem);
                 }
             }

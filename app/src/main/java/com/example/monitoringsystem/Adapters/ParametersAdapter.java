@@ -17,25 +17,18 @@ import com.example.monitoringsystem.model.Parameter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.ViewHolder> {
 
     private static final String TAG = "ParametersAdapter";
     private List<Parameter> parameters;
-    private Context context;
-    private OnItemClickListener listener;
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.rw_parameters_item, parent, false);
-        return new ViewHolder(view, listener);
-    }
-
-    public void addParameter(Parameter parameter) {
-        parameters.add(parameter);
+        return new ViewHolder(view);
     }
 
     public List<Parameter> getParametersRV() {
@@ -51,9 +44,8 @@ public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.Vi
             int value = (int) parameters.get(position).getValue();
             String unitType = parameters.get(position).getUnitType();
             holder.value.setText(value + unitType);
-            if(parameters.get(position).isNew()){
+            if (parameters.get(position).isNew())
                 holder.card.setCardBackgroundColor(Color.LTGRAY);
-            }
         }
     }
 
@@ -66,20 +58,9 @@ public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.Vi
         return parameters.size();
     }
 
-    public interface OnItemClickListener {
-        void onRemoveClickListener(int position) throws ExecutionException, InterruptedException;
-    }
-
-    public void setOnClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
-    ;
-
     public ParametersAdapter(List<Parameter> parameters, Context context) {
         this.parameters = new ArrayList<>();
         this.parameters = parameters;
-        this.context = context;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -89,13 +70,12 @@ public class ParametersAdapter extends RecyclerView.Adapter<ParametersAdapter.Vi
         private TextView timestamp;
         private CardView card;
 
-        ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nameRV);
             value = itemView.findViewById(R.id.valueRV);
             timestamp = itemView.findViewById(R.id.timeStampRV);
             card = itemView.findViewById(R.id.card);
-
         }
     }
 

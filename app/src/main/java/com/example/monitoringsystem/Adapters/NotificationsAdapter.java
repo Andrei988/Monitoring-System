@@ -1,6 +1,6 @@
 package com.example.monitoringsystem.Adapters;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +21,10 @@ import java.util.concurrent.ExecutionException;
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolder> {
 
     private static final String TAG = "NotificationsAdapter";
+
     private List<Notification> notifications;
-    private Context context;
     private NotificationsAdapter.OnItemClickListener listener;
+
 
     @NonNull
     @Override
@@ -33,6 +34,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         return new NotificationsAdapter.ViewHolder(view, listener);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (notifications != null && position <= notifications.size()) {
@@ -41,22 +43,18 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             holder.minValue.setText((int) notifications.get(position).getMinValue() + " " + notifications.get(position).getUnitType());
             holder.maxValue.setText((int) notifications.get(position).getMaxValue() + " " + notifications.get(position).getUnitType());
             holder.sensorValue.setText((int) notifications.get(position).getValue() + " " + notifications.get(position).getUnitType());
-            if (notifications.get(position).getTitle().equals("CO2")) {
-                holder.image.setBackgroundResource(R.drawable.co2_icon);
-            } else if (notifications.get(position).getTitle().equals("Temperature")) {
-                holder.image.setBackgroundResource(R.drawable.temperature);
-            } else if (notifications.get(position).getTitle().equals("Humidity")) {
-                holder.image.setBackgroundResource(R.drawable.humidity_icon);
+            switch (notifications.get(position).getTitle()) {
+                case "CO2":
+                    holder.image.setBackgroundResource(R.drawable.co2_icon);
+                    break;
+                case "Temperature":
+                    holder.image.setBackgroundResource(R.drawable.temperature);
+                    break;
+                case "Humidity":
+                    holder.image.setBackgroundResource(R.drawable.humidity_icon);
+                    break;
             }
         }
-    }
-
-    public void addParameter(Notification notification) {
-        notifications.add(notification);
-    }
-
-    public List<Notification> getParametersRV() {
-        return notifications;
     }
 
     @Override
@@ -68,8 +66,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         return notifications.size();
     }
 
-
-
     public interface OnItemClickListener {
         void onRemoveClickListener(int position) throws ExecutionException, InterruptedException;
     }
@@ -78,8 +74,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         this.listener = listener;
     }
 
-    public NotificationsAdapter(List<Notification> notifications, Context context) {
-        this.context = context;
+    public NotificationsAdapter(List<Notification> notifications) {
         this.notifications = new ArrayList<>();
         this.notifications = notifications;
     }

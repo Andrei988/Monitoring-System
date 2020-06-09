@@ -45,7 +45,7 @@ public class CO2ViewModel extends AndroidViewModel {
 
     public void updateParametersFromTo(String from, String to) throws ParseException
     {
-        repository.updateParametersFromToDummyData(from, to);
+        repository.updateParametersFromTo(from, to);
     }
 
     public void insertNotification(Notification notification) throws ExecutionException, InterruptedException

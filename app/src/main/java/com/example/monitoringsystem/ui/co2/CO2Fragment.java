@@ -168,8 +168,7 @@ public class CO2Fragment extends Fragment {
 
 
                 for (Parameter parametersItem : parameters)
-                    switch (parametersItem.getSensorName())
-                    {
+                    switch (parametersItem.getSensorName()) {
                         case "CO2":
                             current_co2 = parametersItem.getValue();
                             break;
@@ -188,8 +187,7 @@ public class CO2Fragment extends Fragment {
                             timestamp
                     ));
                     Toast.makeText(getContext(), "Report Created", Toast.LENGTH_SHORT).show();
-                }
-                catch (ExecutionException | InterruptedException e) {
+                } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
             });
@@ -303,11 +301,10 @@ public class CO2Fragment extends Fragment {
         generateReportButton = view.findViewById(R.id.buttonGeneratRepCO2);
 
         Calendar now = Calendar.getInstance(); // setting current hour as "time to" and "time from" is time_to - 2
-        //int now_hour = now.get(Calendar.HOUR_OF_DAY); //TODO: uncomment
-        int now_hour = 12;
+        int now_hour = now.get(Calendar.HOUR_OF_DAY);
         int now_minute = now.get(Calendar.MINUTE);
         int now_day = now.get(Calendar.DAY_OF_MONTH);
-        int now_month = now.get(Calendar.MONTH) + 1; // it gives month - 1 don't know why
+        int now_month = now.get(Calendar.MONTH) + 1; // it gives month because calendar starts from 0
         int now_year = now.get(Calendar.YEAR);
 
         if (now_minute % 5 < 3) { // rounding minutes so that ending is 0 or 5
@@ -322,8 +319,8 @@ public class CO2Fragment extends Fragment {
             now_minute_string += now_minute;
         }
 
-        time_fromCO2.setText("0" + now_day + "-0" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
-        time_toCO2.setText("0" + now_day + "-0" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
+        time_fromCO2.setText(now_day + "-" + now_month + "-" + now_year + " " + (now_hour - 2) + ":" + now_minute_string);
+        time_toCO2.setText(now_day + "-" + now_month + "-" + now_year + " " + now_hour + ":" + now_minute_string);
 
         time_fromCO2.setOnClickListener(v -> showDateTimeDialogFrom(time_fromCO2));
         time_toCO2.setOnClickListener(v -> showDateTimeDialogTo(time_toCO2));
@@ -344,7 +341,11 @@ public class CO2Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        CO2ViewModel.updateParametersFromTo(time_fromCO2.getText().toString(), time_toCO2.getText().toString());
+        try {
+            CO2ViewModel.updateParametersFromTo(time_fromCO2.getText().toString(), time_toCO2.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initRecyclerView() {
@@ -364,9 +365,7 @@ public class CO2Fragment extends Fragment {
                 List<Parameter> rwParams = parametersAdapter.getParametersRV();
 
                 if (rwParams != null) {
-                    for (Parameter parameter : rwParams) {
-                        params.add(parameter);
-                    }
+                    params.addAll(rwParams);
                 }
             }
 

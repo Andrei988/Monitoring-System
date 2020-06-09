@@ -63,7 +63,6 @@ public class HumidityFragment extends Fragment {
     private EditText time_to;
     private RecyclerView recyclerView;
     private ParametersAdapter parametersAdapter;
-    private Button updateButton;
     private TextView max_value;
     private TextView min_value;
     private TextView avg_value;
@@ -97,7 +96,7 @@ public class HumidityFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-                    if(prefs == null) {
+                    if (prefs == null) {
                         prefs = new Preferences();
                         prefs.setMaxCo2(100);
                         prefs.setMinCo2(0);
@@ -168,8 +167,7 @@ public class HumidityFragment extends Fragment {
 
 
                 for (Parameter parametersItem : parameters)
-                    switch (parametersItem.getSensorName())
-                    {
+                    switch (parametersItem.getSensorName()) {
                         case "CO2":
                             current_co2 = parametersItem.getValue();
                             break;
@@ -188,14 +186,12 @@ public class HumidityFragment extends Fragment {
                             timestamp
                     ));
                     Toast.makeText(getContext(), "Report Created", Toast.LENGTH_SHORT).show();
-                }
-                catch (ExecutionException | InterruptedException e) {
+                } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
 
             });
         });
-
 
         humidityViewModel.getParameters().observe(this, parameters -> { // parameters from dummy data
 
@@ -228,8 +224,8 @@ public class HumidityFragment extends Fragment {
             ArrayList<Entry> vals = new ArrayList<>(); // data entry for chart
 
             List<List<Parameter>> dataChunks = new ArrayList<>(); // list that holds parameters as parameter chunks
-            Parameter parametersArray[] = humidityParameters.toArray(new Parameter[0]);
-            Parameter chunkArray[];
+            Parameter[] parametersArray = humidityParameters.toArray(new Parameter[0]);
+            Parameter[] chunkArray;
             int initialRatio = humidityParameters.size() / 5;
             int ratio = humidityParameters.size() / 5;
 
@@ -297,7 +293,7 @@ public class HumidityFragment extends Fragment {
         mProgressBar = view.findViewById(R.id.progressBarHumidity);
         time_from = view.findViewById(R.id.dateAndTimeFrom);
         time_to = view.findViewById(R.id.dateAndTimeTo);
-        updateButton = view.findViewById(R.id.updateButton);
+        Button updateButton = view.findViewById(R.id.updateButton);
         recyclerView = view.findViewById(R.id.rv);
         max_value = view.findViewById(R.id.MAX_value);
         min_value = view.findViewById(R.id.MIN_value);
@@ -306,8 +302,7 @@ public class HumidityFragment extends Fragment {
         generateReportButton = view.findViewById(R.id.buttonGenerateRepHum);
 
         Calendar now = Calendar.getInstance(); // setting current hour as "time to" and "time from" is time_to - 2
-        //int now_hour = now.get(Calendar.HOUR_OF_DAY); //TODO: uncomment
-        int now_hour = 12;
+        int now_hour = now.get(Calendar.HOUR_OF_DAY);
         int now_minute = now.get(Calendar.MINUTE);
         int now_day = now.get(Calendar.DAY_OF_MONTH);
         int now_month = now.get(Calendar.MONTH) + 1; // it gives month - 1 don't know why
@@ -346,7 +341,11 @@ public class HumidityFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        humidityViewModel.updateParametersFromTo(time_from.getText().toString(), time_to.getText().toString());
+        try {
+            humidityViewModel.updateParametersFromTo(time_from.getText().toString(), time_to.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initRecyclerView() {
@@ -366,9 +365,7 @@ public class HumidityFragment extends Fragment {
                 List<Parameter> rwParams = parametersAdapter.getParametersRV();
 
                 if (rwParams != null) {
-                    for (Parameter parameter : rwParams) {
-                        params.add(parameter);
-                    }
+                    params.addAll(rwParams);
                 }
             }
 

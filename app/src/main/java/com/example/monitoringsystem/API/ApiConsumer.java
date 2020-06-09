@@ -1,6 +1,5 @@
 package com.example.monitoringsystem.API;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -11,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiConsumer {
 
-    private static final String TAG = "ServiceGenerator";
+    private static final String TAG = "ApiConsumer";
 
     private static final String BASE_URL = "http://localhost:8080";
     private static ApiConsumer instance;

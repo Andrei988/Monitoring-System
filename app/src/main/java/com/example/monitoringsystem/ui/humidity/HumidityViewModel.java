@@ -45,7 +45,7 @@ public class HumidityViewModel extends AndroidViewModel {
     }
 
     public void updateParametersFromTo(String from, String to) throws ParseException {
-        repository.updateParametersFromToDummyData(from, to);
+        repository.updateParametersFromTo(from, to);
     }
 
     public LiveData<List<Parameter>> getLastParameters() {

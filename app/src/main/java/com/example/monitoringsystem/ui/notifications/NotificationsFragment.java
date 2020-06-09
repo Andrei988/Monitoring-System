@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.monitoringsystem.Adapters.NotificationsAdapter;
 import com.example.monitoringsystem.R;
 
+import java.util.concurrent.ExecutionException;
+
 import lombok.SneakyThrows;
 
 public class NotificationsFragment extends Fragment {
@@ -30,20 +32,24 @@ public class NotificationsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         notificationsViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
-        notificationsViewModel.getNotifications().observe(this, notifications -> {
+        try {
+            notificationsViewModel.getNotifications().observe(this, notifications -> {
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            notificationsAdapter = new NotificationsAdapter(notifications, getActivity());
-            recyclerView.setAdapter(notificationsAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                notificationsAdapter = new NotificationsAdapter(notifications);
+                recyclerView.setAdapter(notificationsAdapter);
 
-            notificationsAdapter.setOnClickListener(position ->
-            {
-                notificationsViewModel.removeItem(position);
-                Toast.makeText(getContext(), "Item removed", Toast.LENGTH_SHORT).show();
-                notificationsAdapter.notifyDataSetChanged();
+                notificationsAdapter.setOnClickListener(position ->
+                {
+                    notificationsViewModel.removeItem(position);
+                    Toast.makeText(getContext(), "Item removed", Toast.LENGTH_SHORT).show();
+                    notificationsAdapter.notifyDataSetChanged();
+                });
+
             });
-
-        });
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @SneakyThrows

@@ -254,7 +254,7 @@ public class DummyData {
                 parameter.setNew(true);
             }
 
-            ParametersRepository.lastParameters.postValue(parameters);
+            //ParametersRepository.lastParameters.postValue(parameters);
 
         }
     }

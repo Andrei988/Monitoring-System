@@ -1,7 +1,6 @@
 package com.example.monitoringsystem.Adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.VHolder>
 
     private static final String TAG = "ReportsAdapter";
     private List<Report> reports;
-    private Context context;
     private ReportsAdapter.OnItemClickListener listener;
 
     @NonNull
@@ -36,8 +34,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.VHolder>
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull VHolder holder, int position) {
-        if (reports != null && position <= reports.size())
-        {
+        if (reports != null && position <= reports.size()) {
             holder.co2Value.setText(reports.get(position).getCurrent_co2() + " ");
             holder.humValue.setText(reports.get(position).getCurrent_humidity() + " ");
             holder.tempValue.setText(reports.get(position).getCurrent_temperature() + " ");
@@ -62,36 +59,30 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.VHolder>
         this.listener = listener;
     }
 
-    public ReportsAdapter(List<Report> reports, Context context) {
-        this.context = context;
+    public ReportsAdapter(List<Report> reports) {
         this.reports = new ArrayList<>();
         this.reports = reports;
     }
 
-    class VHolder extends RecyclerView.ViewHolder
-    {
-      private TextView co2Value, humValue, tempValue, timestamp;
-      private Button deleteBtn;
+    class VHolder extends RecyclerView.ViewHolder {
+        private TextView co2Value, humValue, tempValue, timestamp;
+
         public VHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             co2Value = itemView.findViewById(R.id.reportCO2Value);
             timestamp = itemView.findViewById(R.id.reportDateTextValue);
             humValue = itemView.findViewById(R.id.reportHumidityValue);
             tempValue = itemView.findViewById(R.id.reportTempValue);
-            deleteBtn = itemView.findViewById(R.id.buttonDeleteReport);
+            Button deleteBtn = itemView.findViewById(R.id.buttonDeleteReport);
 
             deleteBtn.setOnClickListener(v ->
             {
                 if (listener != null) {
                     int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION)
-                    {
-                        try
-                        {
+                    if (pos != RecyclerView.NO_POSITION) {
+                        try {
                             listener.onRemoveClickListener(pos);
-                        }
-                        catch (ExecutionException | InterruptedException e)
-                        {
+                        } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
                         }
                         reports.remove(pos);

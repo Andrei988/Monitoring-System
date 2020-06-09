@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+
 import com.example.monitoringsystem.API.API;
 import com.example.monitoringsystem.API.ApiConsumer;
 import com.example.monitoringsystem.model.Parameter;
@@ -28,7 +29,7 @@ public class ParametersRepository {
     private static ParametersRepository instance;
 
     private MutableLiveData<List<Parameter>> parameters;
-    public static MutableLiveData<List<Parameter>> lastParameters; // public static for dummy data
+    public MutableLiveData<List<Parameter>> lastParameters;
     private MutableLiveData<Boolean> isLoading;
 
     public ParametersRepository(Application app) {
@@ -46,11 +47,11 @@ public class ParametersRepository {
         return instance;
     }
 
-    public void updateParametersFromToDummyData(String from, String to) throws ParseException {
-        isLoading.postValue(true);
-        parameters.postValue(DummyData.updateParametersFromToDummyData(from, to));
-        isLoading.postValue(false);
-    }
+//    public void updateParametersFromToDummyData(String from, String to) throws ParseException {
+//        isLoading.postValue(true);
+//        parameters.postValue(DummyData.updateParametersFromToDummyData(from, to));
+//        isLoading.postValue(false);
+//    }
 
     public void updateParametersFromTo(String from, String to) {
         isLoading.setValue(true);
@@ -77,12 +78,25 @@ public class ParametersRepository {
         new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(300000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                DummyData.liveData();
-                Log.i(TAG, "runLiveData: "+ lastParameters.getValue());
+                Retrofit retrofit = ApiConsumer.getInstance().getRetrofitClient();
+                API api = retrofit.create(API.class);
+                final Call<List<Parameter>> call = api.getLastParameters();
+
+                call.enqueue(new Callback<List<Parameter>>() {
+                    @Override
+                    public void onResponse(@NotNull Call<List<Parameter>> call, @NotNull Response<List<Parameter>> response) {
+                        lastParameters.postValue(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<List<Parameter>> call, @NotNull Throwable t) {
+                        Log.e(TAG, Objects.requireNonNull(t.getMessage()));
+                    }
+                });
             }
         }).start();
     }
@@ -100,26 +114,5 @@ public class ParametersRepository {
         return lastParameters;
     }
 
-
-    class liveData extends TimerTask {
-        public void run() {
-
-            Retrofit retrofit = ApiConsumer.getInstance().getRetrofitClient();
-            API api = retrofit.create(API.class);
-            final Call<List<Parameter>> call = api.getLastParameters();
-
-            call.enqueue(new Callback<List<Parameter>>() {
-                @Override
-                public void onResponse(@NotNull Call<List<Parameter>> call, @NotNull Response<List<Parameter>> response) {
-                    lastParameters.postValue(response.body());
-                }
-
-                @Override
-                public void onFailure(@NotNull Call<List<Parameter>> call, @NotNull Throwable t) {
-                    Log.e(TAG, Objects.requireNonNull(t.getMessage()));
-                }
-            });
-        }
-    }
 
 }

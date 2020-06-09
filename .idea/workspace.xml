@@ -1,8 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="e15ee701-3683-4ff4-9da7-2fd46c489413" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="e15ee701-3683-4ff4-9da7-2fd46c489413" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/API/API.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/API/API.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/API/ApiConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/API/ApiConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/Adapters/NotificationsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/Adapters/NotificationsAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/Adapters/ParametersAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/Adapters/ParametersAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/Adapters/ReportsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/Adapters/ReportsAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/LoginActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/RegisterActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/model/ComputedValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/model/ComputedValues.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/model/DefaultValue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/model/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/model/Parameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/repository/Database/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/repository/Database/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/repository/Database/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/repository/Database/Report.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/repository/DummyData.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/repository/DummyData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/repository/ParametersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/repository/ParametersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/co2/CO2Fragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/co2/CO2Fragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/co2/CO2ViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/co2/CO2ViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/humidity/HumidityFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/humidity/HumidityFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/humidity/HumidityViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/humidity/HumidityViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/notifications/NotificationsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/notifications/NotificationsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/reports/ReportsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/reports/ReportsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/temperature/TemperatureFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/temperature/TemperatureFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/temperature/TemperatureViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/monitoringsystem/ui/temperature/TemperatureViewModel.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,26 +52,27 @@
       </state>
     </system>
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="MonitoringSystem" />
+  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1cG8YALZcdCm4G1st8GdevUPwfk" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="compactDirectories" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Monitoring-System-master/Monitoring-System-master/app" />
+    <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Android App.app">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -50,6 +82,57 @@
     </configuration>
     <configuration name="Monitoring-System-app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Monitoring-System-app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -118,10 +201,30 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1212" y="277" key="#Plugins" timestamp="1591659344041">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1212" y="277" key="#Plugins/-1920.350.1920.1040/0.0.3440.1400/3440.269.1536.1112@0.0.3440.1400" timestamp="1591659344041" />
+    <state x="1481" y="310" key="#com.intellij.ide.util.MemberChooser" timestamp="1591660164990">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1481" y="310" key="#com.intellij.ide.util.MemberChooser/-1920.350.1920.1040/0.0.3440.1400/3440.269.1536.1112@0.0.3440.1400" timestamp="1591660164990" />
+    <state x="1142" y="258" key="SettingsEditor" timestamp="1591658817301">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1142" y="258" key="SettingsEditor/-1920.350.1920.1040/0.0.3440.1400/3440.269.1536.1112@0.0.3440.1400" timestamp="1591658817301" />
+    <state x="1299" y="308" width="840" height="1034" key="search.everywhere.popup" timestamp="1591659307700">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1299" y="308" width="840" height="1034" key="search.everywhere.popup/-1920.350.1920.1040/0.0.3440.1400/3440.269.1536.1112@0.0.3440.1400" timestamp="1591659307700" />
   </component>
 </project>

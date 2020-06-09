@@ -37,40 +37,33 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        logBtn.setOnClickListener(new View.OnClickListener()
-        {
+        logBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String pass = passLogin.getText().toString();
                 String mail = emailLogin.getText().toString();
 
-                if(TextUtils.isEmpty(pass))
-                {
+                if (TextUtils.isEmpty(pass)) {
                     passLogin.setError("A password is required");
                     return;
                 }
 
-                if (passLogin.length() < 6)
-                {
+                if (passLogin.length() < 6) {
                     passLogin.setError("Password must contain at least 6 characters");
                 }
 
-                if (TextUtils.isEmpty(mail))
-                {
+                if (TextUtils.isEmpty(mail)) {
                     emailLogin.setError("An E-mail address is required");
                     return;
                 }
 
-                firebaseAuth.signInWithEmailAndPassword(mail,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful())
-                        {
-                            Toast.makeText( LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        }
-                        else
-                        {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        } else {
                             Toast.makeText(LoginActivity.this, "Error!" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -85,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
 }
